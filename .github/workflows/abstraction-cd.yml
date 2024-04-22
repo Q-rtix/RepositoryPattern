@@ -1,16 +1,16 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: Repository Pattern CD
+name: Repository Pattern Abstractions CD
 
 on:
   push:
     branches: [ "master" ]
 
 env:
-  PATH_PROJECT: src\EFCore.RepositoryPattern
-  PATH_RELEASE: src\EFCore.RepositoryPattern\bin\Release
-  PROJECT_NAME: EFCore.RepositoryPattern.csproj
+  PATH_PROJECT: src\RepositoryPattern.Abstractions
+  PATH_RELEASE: src\RepositoryPattern.Abstractions\bin\Release
+  PROJECT_NAME: RepositoryPattern.Abstractions.csproj
 
 jobs:
   publish:

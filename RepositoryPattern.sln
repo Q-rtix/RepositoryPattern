@@ -6,6 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{43F786CE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPattern.Abstractions", "src\RepositoryPattern.Abstractions\RepositoryPattern.Abstractions.csproj", "{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPattern.EntityFrameworkCore", "src\RepositoryPattern.EntityFrameworkCore\RepositoryPattern.EntityFrameworkCore.csproj", "{3C38A352-40F7-4CAD-8ED5-51A748B3D144}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED} = {688023D7-6C66-4417-8DFB-47D88C08D543}
+		{3C38A352-40F7-4CAD-8ED5-51A748B3D144} = {688023D7-6C66-4417-8DFB-47D88C08D543}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C38A352-40F7-4CAD-8ED5-51A748B3D144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C38A352-40F7-4CAD-8ED5-51A748B3D144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C38A352-40F7-4CAD-8ED5-51A748B3D144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C38A352-40F7-4CAD-8ED5-51A748B3D144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
