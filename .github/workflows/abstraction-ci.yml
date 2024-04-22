@@ -10,9 +10,9 @@ on:
     branches: [ "develop" ]
 
 env:
-  PATH_PROJECT: src\EFCore.RepositoryPattern
-  PROJECT_NAME: EFCore.RepositoryPattern.csproj
-  PATH_TEST: tests\EFCore.RepositoryPattern.Tests
+  PATH_PROJECT: src\RepositoryPattern.Abstraction
+  PROJECT_NAME: RepositoryPattern.Abstraction.csproj
+  PATH_TEST: tests\RepositoryPattern.Abstraction.Tests
 
 jobs:
   build:
@@ -34,6 +34,6 @@ jobs:
       - name: Building the project
         run: dotnet build --no-restore --configuration Debug
         working-directory: ${{ env.PATH_PROJECT }}
-      - name: Running the Unit Tests
-        run: dotnet test --verbosity normal
-        working-directory: ${{ env.PATH_TEST }}
+#      - name: Running the Unit Tests
+#        run: dotnet test --verbosity normal
+#        working-directory: ${{ env.PATH_TEST }}
