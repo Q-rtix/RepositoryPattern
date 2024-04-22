@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{688023D7-6C6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{43F786CE-16B2-4892-8AB1-9180439C7D94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPattern", "src\RepositoryPattern\RepositoryPattern.csproj", "{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPattern.Abstractions", "src\RepositoryPattern.Abstractions\RepositoryPattern.Abstractions.csproj", "{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
