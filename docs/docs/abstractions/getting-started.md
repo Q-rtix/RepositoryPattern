@@ -1,22 +1,15 @@
-# Repository Pattern Abstractions
-
-![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.Abstractions?style=flat&logo=nuget)
-![NuGet Downloads](https://img.shields.io/nuget/dt/Qrtix.RepositoryPattern.Abstractions?style=flat&logo=nuget)
-![GitHub Repo stars](https://img.shields.io/github/stars/Q-rtix/RepositoryPattern?style=flat&logo=github)
+# Getting Started
 
 A library for implementing generic repositories and unit of work with Entity Framework Core.
 This implementation uses a single instance of the DbContext for all repositories to avoid concurrency issues.
-
-Consult the online [documentation](https://q-rtix.github.io/RepositoryPattern/) for more details.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Creating the DbContext](#creating-the-dbcontext)
-- [Injecting the Repository Pattern](#injecting-the-efcorerepositorypattern-services)
-- [Creating the Service](#creating-the-service)
-- [IUnitOfWork methods](#unitofwork)
-- [IRepository methods](#repository-methods)
+- [Creating the Repository implementation](#creating-the-repository-implementation)
+- [Creating the Unit fo work implementation](#creating-the-unit-of-work-implementation)
+- [Injecting the Services](#injecting-the-repositorypatterns-services)
 
 ## Installation
 

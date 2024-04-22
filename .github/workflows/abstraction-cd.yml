@@ -8,9 +8,9 @@ on:
     branches: [ "master" ]
 
 env:
-  PATH_PROJECT: src\EFCore.RepositoryPattern
-  PATH_RELEASE: src\EFCore.RepositoryPattern\bin\Release
-  PROJECT_NAME: EFCore.RepositoryPattern.csproj
+  PATH_PROJECT: src\RepositoryPattern.Abstraction
+  PATH_RELEASE: src\RepositoryPattern.Abstraction\bin\Release
+  PROJECT_NAME: RepositoryPattern.Abstraction.csproj
 
 jobs:
   publish:

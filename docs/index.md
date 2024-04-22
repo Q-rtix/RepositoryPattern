@@ -1,3 +1,7 @@
+---
+_layout: landing
+---
+
 # Introduction
 
 ![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.Abstractions?logo=nuget&label=RepositoryPattern.Abstractions)
@@ -27,7 +31,7 @@ With
 this library, you can create and use repositories to perform CRUD (Create, Read, Update, Delete) operations, manage
 transactions, and execute custom queries, all while adhering to best practices in software architecture.
 
-[RepositoryPattern.RepositoryPattern README](src/RepositoryPattern.Abstractions/README.md)
+[Getting Started](https://q-rtix.github.io/RepositoryPattern/docs/abstractions/getting-started.html)
 
 ## What You'll Find in This Documentation
 
@@ -78,4 +82,4 @@ in and explore the capabilities of these libraries together!
 
 If you have any questions or need further assistance, don't hesitate to reach out to us.
 
-Happy coding!
+Happy coding!n image.

@@ -1,4 +1,5 @@
-# Repository Pattern Abstractions
+# Getting Started
+
 
 ![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.Abstractions?style=flat&logo=nuget)
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Qrtix.RepositoryPattern.Abstractions?style=flat&logo=nuget)
@@ -145,5 +146,4 @@ The default scope for injected services is scoped. If you want to change it, ref
 builder.Services.AddRepositoryPattern(options => {
     options.UseRepositoryImplementation(typeof(Repository<>)
     	.UseUnitOfWorkImplementation<UnitOfWork>();
-}, ServiceLifeTime.Transient);
-```
+}, 

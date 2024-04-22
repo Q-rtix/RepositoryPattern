@@ -1,0 +1,5 @@
+- name: Repository Pattern Abstraction
+  href: abstractions/introduction.md
+  items:
+    - name: Getting Started
+      href: abstractions/getting-started.md
