@@ -1,4 +1,4 @@
-# Database Manager EFCore Repository Pattern
+# Repository Pattern implementation for Entity Framework Core
 
 ![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.EntityFrameworkCore?style=flat&logo=nuget)
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Qrtix.RepositoryPattern.EntityFrameworkCore?style=flat&logo=nuget)
@@ -13,10 +13,7 @@ Consult the online [documentation](https://q-rtix.github.io/EFCore/) for more de
 
 - [Installation](#installation)
 - [Creating the DbContext](#creating-the-dbcontext)
-- [Injecting the Repository Pattern](#injecting-the-efcorerepositorypattern-services)
-- [Creating the Service](#creating-the-service)
-- [IUnitOfWork methods](#unitofwork)
-- [IRepository methods](#repository-methods)
+- [Injecting the Repository Pattern](#injecting-the-repositorypatterns-services)
 
 ## Installation
 
@@ -62,6 +59,17 @@ builder.Services.AddDbContext<DbContext, SuinQShopModuleDbContext>(opt =>
 
 Add the `RepositoryPattern` services to the Service Collection:
 
+
 ```csharp
-builder.Services.AddRepositoryPattern();
+builder.Services.AddRepositoryPattern(options => {
+    options.UseEntityFrameworkCore();
+});
+```
+
+The default scope for injected services is scoped. If you want to change it, refer to the next example:
+
+```csharp
+builder.Services.AddRepositoryPattern(options => {
+    options.UseEntityFrameworCore();
+}, ServiceLifeTime.Transient);
 ```

@@ -27,7 +27,17 @@ With
 this library, you can create and use repositories to perform CRUD (Create, Read, Update, Delete) operations, manage
 transactions, and execute custom queries, all while adhering to best practices in software architecture.
 
-[RepositoryPattern.RepositoryPattern README](src/RepositoryPattern.Abstractions/README.md)
+[README](src/RepositoryPattern.Abstractions/README.md)
+
+## About `RepositoryPattern.EntityFrameworkCore`
+
+`RepositoryPattern.EntityFrameworkCore` is a library that implements the repository pattern on top of Entity Framework Core,
+providing a structured approach to database access and management. By decoupling your application's data access logic
+from the underlying data source, `RepositoryPattern.EntityFrameworkCore` promotes modularity, testability, and maintainability. With
+this library, you can create and use repositories to perform CRUD (Create, Read, Update, Delete) operations, manage
+transactions, and execute custom queries, all while adhering to best practices in software architecture.
+
+[README](src/RepositoryPattern.EntityFrameworkCore/README.md)
 
 ## What You'll Find in This Documentation
 
@@ -53,7 +63,8 @@ in and explore the capabilities of these libraries together!
 - Ensure the bug was not already reported by searching on GitHub
   under [Issues](https://github.com/Q-rtix/RepositoryPattern/issues).
 - If you're unable to find an open issue addressing the
-  problem, [open a new one](https://github.com/Q-rtix/RepositoryPattern/issues/new). Be sure to include a title and clear
+  problem, [open a new one](https://github.com/Q-rtix/RepositoryPattern/issues/new). Be sure to include a title and
+  clear
   description, as much relevant information as possible, and a code sample or an executable test case demonstrating the
   expected behavior that is not occurring.
 
@@ -64,7 +75,8 @@ in and explore the capabilities of these libraries together!
 
 **Do you intend to add a new feature or change an existing one?**
 
-- First suggest your change in the [RepositoryPattern ideas page](https://github.com/Q-rtix/RepositoryPattern/discussions/categories/ideas)
+- First suggest your change in
+  the [RepositoryPattern ideas page](https://github.com/Q-rtix/RepositoryPattern/discussions/categories/ideas)
   for discussion.
 - There are no fixed rules on what should and shouldn't be in this library, but some features are more valuable than
   others, and some require long-term maintenance that outweighs the value of the feature. So please get sign-off from
