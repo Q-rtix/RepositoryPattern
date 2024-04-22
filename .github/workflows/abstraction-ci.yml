@@ -10,9 +10,9 @@ on:
     branches: [ "develop" ]
 
 env:
-  PATH_PROJECT: src\RepositoryPattern.Abstraction
-  PROJECT_NAME: RepositoryPattern.Abstraction.csproj
-  PATH_TEST: tests\RepositoryPattern.Abstraction.Tests
+  PATH_PROJECT: src\RepositoryPattern.Abstractions
+  PROJECT_NAME: RepositoryPattern.Abstractions.csproj
+  PATH_TEST: tests\RepositoryPattern.Abstractions.Tests
 
 jobs:
   build:
