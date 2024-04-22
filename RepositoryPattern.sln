@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{688023D7-6C66-4417-8DFB-47D88C08D543}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{43F786CE-16B2-4892-8AB1-9180439C7D94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPattern", "src\RepositoryPattern\RepositoryPattern.csproj", "{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED} = {688023D7-6C66-4417-8DFB-47D88C08D543}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B80873D-D3FB-4E31-822E-5E0A13F0E8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

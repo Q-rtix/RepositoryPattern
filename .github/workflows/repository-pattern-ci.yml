@@ -1,0 +1,39 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Repository Pattern CI
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+env:
+  PATH_PROJECT: src\EFCore.RepositoryPattern
+  PROJECT_NAME: EFCore.RepositoryPattern.csproj
+  PATH_TEST: tests\EFCore.RepositoryPattern.Tests
+
+jobs:
+  build:
+    name: Build & Test project
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setting up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            8.x
+            7.x
+            6.x
+      #          cache: true
+      - name: Restoring dependencies
+        run: dotnet restore
+        working-directory: ${{ env.PATH_PROJECT }}
+      - name: Building the project
+        run: dotnet build --no-restore --configuration Debug
+        working-directory: ${{ env.PATH_PROJECT }}
+      - name: Running the Unit Tests
+        run: dotnet test --verbosity normal
+        working-directory: ${{ env.PATH_TEST }}

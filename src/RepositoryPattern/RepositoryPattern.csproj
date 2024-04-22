@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<LangVersion>default</LangVersion>
+		<SignAssembly>true</SignAssembly>
+		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+		<Authors>Carlos J. Ortiz</Authors>
+		<Description>
+			Welcome to the documentation for our Repository Pattern Library! This library provides a convenient
+			abstraction to emplement the repository pattern in your .NET applications. By using this
+			library, you can decouple your data access logic from your business logic, resulting in a more maintainable
+			and testable codebase.
+		</Description>
+		<RepositoryUrl>https://github.com/Q-rtix/RepositoryPattern</RepositoryUrl>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>RepositoryPattern</Title>
+		<Version>1.0.0</Version>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
+		<PackageId>Qrtix.RepositoryPattern</PackageId>
+		<PackageReleaseNotes>First Realese</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>
+			RepositoryPattern, Repository, Pattern
+		</PackageTags>
+		<Copyright>Copyright (c) Carlos J. Ortiz. All rights reserved.</Copyright>
+		<PackageProjectUrl>https://github.com/users/Q-rtix/projects/1</PackageProjectUrl>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+	  <DocumentationFile>bin\Debug\RepositoryPattern.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+	  <DocumentationFile>bin\Release\RepositoryPattern.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.17"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
+	</ItemGroup>
+
+</Project>
