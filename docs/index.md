@@ -17,8 +17,7 @@ you need to know right here.
 
 Consult the online [documentation](https://q-rtix.github.io/RepositoryPattern/) for more details.
 
-- [About RepositoryPattern.Converters](#about-repositorypatternabstractions)
-- [About RepositoryPattern.RepositoryPattern](#about-RepositoryPatternrepositorypattern)
+- [About RepositoryPattern.Abstractions](#about-repositorypatternabstractions)
 - [What You'll Find in This Documentation](#what-youll-find-in-this-documentation)
 - [Contributing](#contributing)
 
