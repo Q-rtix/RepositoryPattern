@@ -3,3 +3,8 @@
   items:
     - name: Getting Started
       href: abstractions/getting-started.md
+- name: Repository Pattern Implementation for EFCore
+  href: efcore/introduction.md
+  items:
+    - name: Getting Started
+      href: efcore/getting-started.md
