@@ -10,33 +10,34 @@
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 		<Authors>Carlos J. Ortiz</Authors>
 		<Description>
-			Welcome to the documentation for our Repository Pattern Library! This library provides a convenient
-			abstraction to emplement the repository pattern in your .NET applications. By using this
+			Welcome to the documentation for our Repository Pattern Library! This library provides a convenient way to
+			implement the repository pattern with Entity Framework Core in your .NET applications. By using this
 			library, you can decouple your data access logic from your business logic, resulting in a more maintainable
 			and testable codebase.
 		</Description>
-		<RepositoryUrl>https://github.com/Q-rtix/RepositoryPattern</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Q-rtix/EFCore</RepositoryUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Title>RepositoryPattern.Abstractions</Title>
-		<Version>1.0.1</Version>
+		<Title>RepositoryPattern.EntityFrameworkCore</Title>
+		<Version>1.0.0</Version>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
-		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<PackageReleaseNotes>Improve builder pattern</PackageReleaseNotes>
+		<PackageId>Qrtix.RepositoryPattern.EntityFrameworkCore</PackageId>
+		<PackageReleaseNotes>First Realese</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>
-			RepositoryPattern, Repository, Pattern
+			EFCore, RepositoryPattern, EF, EFCore.RepositoryPattern, EFCore.RepositoryPattern, EntityFrameworkCore, EntityFramework.RepositoryPattern,
+			RepositoryPattern
 		</PackageTags>
 		<Copyright>Copyright (c) Carlos J. Ortiz. All rights reserved.</Copyright>
 		<PackageProjectUrl>https://github.com/users/Q-rtix/projects/1</PackageProjectUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-	  <DocumentationFile>bin\Debug\RepositoryPattern.xml</DocumentationFile>
+	  <DocumentationFile>bin\Debug\RepositoryPattern.EntityFrameworkCore.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-	  <DocumentationFile>bin\Release\RepositoryPattern.xml</DocumentationFile>
+	  <DocumentationFile>bin\Release\RepositoryPattern.EntityFrameworkCore.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
@@ -51,10 +52,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\"/>
+		<PackageReference Include="Qrtix.RepositoryPattern.Abstractions" Version="1.0.0" />
 	</ItemGroup>
 
 </Project>

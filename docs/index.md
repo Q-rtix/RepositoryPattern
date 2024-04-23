@@ -4,10 +4,20 @@ _layout: landing
 
 # Introduction
 
-![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.Abstractions?logo=nuget&label=RepositoryPattern.Abstractions)
-![NuGet Downloads](https://img.shields.io/nuget/dt/Qrtix.RepositoryPattern.Abstractions?style=flat&logo=nuget&label=RepositoryPattern.Abstractions)
+![GitHub Repo stars](https://img.shields.io/github/stars/Q-rtix/RepositoryPattern?style=flat&logo=github)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/Q-rtix/RepositoryPattern?style=flat&logo=github&label=RepositoryPattern.Abstractions)
+**RepositoryPattern.Abstractions**
+
+![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.Abstractions?logo=nuget)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Qrtix.RepositoryPattern.Abstractions?style=flat&logo=nuget)
+
+**RepositoryPattern.EntityFrameworkCore**
+
+![NuGet Version](https://img.shields.io/nuget/v/Qrtix.RepositoryPattern.EntityFrameworkCore?style=flat&logo=nuget)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Qrtix.RepositoryPattern.EntityFrameworkCore?style=flat&logo=nuget)
+
+
+
 
 Welcome to the documentation for Repository Pattern libraries! This documentation serves as a comprehensive guide to
 using these
