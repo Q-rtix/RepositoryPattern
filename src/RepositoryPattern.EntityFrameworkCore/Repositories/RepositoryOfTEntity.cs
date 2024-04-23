@@ -3,30 +3,22 @@ using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using RepositoryPattern.Abstractions.Repositories;
 
-[assembly: InternalsVisibleTo("RepositoryPattern.EntityFameworkCore.Tests")]
+[assembly: InternalsVisibleTo("RepositoryPattern.EntityFrameworkCore.Tests")]
 namespace RepositoryPattern.EntityFrameworkCore.Repositories;
 
 internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-	#region variables
-
 	private readonly DbSet<TEntity> _dbSet;
 	private readonly DbContext _context;
 
-	#endregion
-
-	#region constructors
-
+	
 	public Repository(DbContext context)
 	{
 		_context = context;
 		_dbSet = context.Set<TEntity>();
 	}
 
-	#endregion
-
-	#region IRepository implementation
-
+	
 	public IQueryable<TEntity> Data => _dbSet;
 
 
@@ -35,11 +27,9 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 		IEnumerable<Expression<Func<TEntity, object>>>? includes = null,
 		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
 		CancellationToken cancellationToken = default)
-	{
-		return await Task.Run(() =>
+		=> await Task.Run(() =>
 				_dbSet.WithTrackingOption(disableTracking).WithIncludedProperties(includes).ApplyOrdering(orderBy)
 			, cancellationToken);
-	}
 
 	public IQueryable<TEntity> GetMany(Expression<Func<TEntity, bool>>? filters = null,
 		bool disableTracking = false,
@@ -205,5 +195,5 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
 	public int Save() => _context.SaveChanges();
 
-	#endregion
+	
 }
