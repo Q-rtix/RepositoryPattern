@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using RepositoryPattern.Abstractions.Builder;
 using RepositoryPattern.Abstractions.Repositories;
 using RepositoryPattern.Abstractions.UnitOfWork;
@@ -23,18 +24,19 @@ public static class DependencyInjection
 	///     An <see cref="IServiceCollection" /> with the requisite dependencies and services for seamless operation of
 	///     this library.
 	/// </returns>
-	/// <exception cref="ArgumentNullException">If the <see cref="IServiceCollection" /> is null</exception>
+	/// <exception cref="ArgumentNullException">Thrown when the <see cref="IServiceCollection" /> is null</exception>
+	/// <exception cref="InvalidOperationException">Thrown when the repository pattern options are not configured</exception>
 	public static IServiceCollection AddRepositoryPattern(this IServiceCollection services,
-		Action<RepositoryPatternOptionBuilder> options, ServiceLifetime servicesLifeTime = ServiceLifetime.Scoped)
+		Action<RepositoryPatternOptionsBuilder> options, ServiceLifetime servicesLifeTime = ServiceLifetime.Scoped)
 	{
 		ArgumentNullException.ThrowIfNull(services);
 
-		var builder = new RepositoryPatternOptionBuilder();
+		var builder = new RepositoryPatternOptionsBuilder();
 		options(builder);
 
-		services.Add(new ServiceDescriptor(typeof(IRepository<>), builder.RepositoryImplementationType,
+		services.TryAdd(new ServiceDescriptor(typeof(IRepository<>), builder.RepositoryImplementationType,
 			servicesLifeTime));
-		services.Add(new ServiceDescriptor(typeof(IUnitOfWork), builder.UnitOfWorkImplementation, servicesLifeTime));
+		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), builder.UnitOfWorkImplementation, servicesLifeTime));
 
 		return services;
 	}
