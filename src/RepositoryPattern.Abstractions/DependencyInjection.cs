@@ -27,16 +27,16 @@ public static class DependencyInjection
 	/// <exception cref="ArgumentNullException">Thrown when the <see cref="IServiceCollection" /> is null</exception>
 	/// <exception cref="InvalidOperationException">Thrown when the repository pattern options are not configured</exception>
 	public static IServiceCollection AddRepositoryPattern(this IServiceCollection services,
-		Action<RepositoryPatternOptionsBuilder> options, ServiceLifetime servicesLifeTime = ServiceLifetime.Scoped)
+		Action<RepositoryPatternOptions> options, ServiceLifetime servicesLifeTime = ServiceLifetime.Scoped)
 	{
 		ArgumentNullException.ThrowIfNull(services);
 
-		var builder = new RepositoryPatternOptionsBuilder();
-		options(builder);
+		var repositoryPatternOptions = new RepositoryPatternOptions();
+		options(repositoryPatternOptions);
 
-		services.TryAdd(new ServiceDescriptor(typeof(IRepository<>), builder.RepositoryImplementationType,
+		services.TryAdd(new ServiceDescriptor(typeof(IRepository<>), repositoryPatternOptions.RepositoryImplementationType,
 			servicesLifeTime));
-		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), builder.UnitOfWorkImplementation, servicesLifeTime));
+		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), repositoryPatternOptions.UnitOfWorkImplementation, servicesLifeTime));
 
 		return services;
 	}
