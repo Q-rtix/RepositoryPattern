@@ -18,11 +18,13 @@
 		<RepositoryUrl>https://github.com/Q-rtix/RepositoryPattern</RepositoryUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Title>RepositoryPattern.Abstractions</Title>
+		
+		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
 		<Version>1.1.0</Version>
+		<PackageReleaseNotes>Change configuration options</PackageReleaseNotes>
+		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
-		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<PackageReleaseNotes>Change configuration options</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>
 			RepositoryPattern, Repository, Pattern
