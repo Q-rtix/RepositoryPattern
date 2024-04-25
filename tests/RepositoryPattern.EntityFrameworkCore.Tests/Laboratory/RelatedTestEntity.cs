@@ -1,12 +1,13 @@
 namespace RepositoryPattern.EntityFrameworkCore.Tests.Laboratory;
 
-public class TestEntity
+public class RelatedTestEntity
 {
 	public required int Id { get; set; }
 	public required string Name { get; set; }
 	public string? Description { get; set; }
 
-	public virtual ICollection<RelatedTestEntity> RelatedTestEntities { get; set; } = new HashSet<RelatedTestEntity>();
+	public int? TestEntityId { get; set; }
+	public TestEntity? TestEntity { get; set; }
 
 	public override bool Equals(object? obj)
 		=> obj is TestEntity entity && Equals(entity);

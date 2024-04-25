@@ -31,4 +31,12 @@ internal static class RepositoryQueryExtensions
 		
 		return orderBy is null ? query : orderBy(query);
 	}
+	
+	internal static IQueryable<T> ApplyFiltering<T>(this IQueryable<T> query,
+		Expression<Func<T, bool>>? filters = null)
+	{
+		ArgumentNullException.ThrowIfNull(query);
+		
+		return filters is null ? query : query.Where(filters);
+	}
 }
