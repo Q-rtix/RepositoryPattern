@@ -20,8 +20,8 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>1.1.0</Version>
-		<PackageReleaseNotes>Change configuration options</PackageReleaseNotes>
+		<Version>2.0.0</Version>
+		<PackageReleaseNotes>Invert the default value of the savechanges parameter.</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
