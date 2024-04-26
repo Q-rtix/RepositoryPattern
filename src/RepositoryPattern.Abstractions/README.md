@@ -13,10 +13,10 @@ Consult the online [documentation](https://q-rtix.github.io/RepositoryPattern/) 
 
 - [Installation](#installation)
 - [Creating the DbContext](#creating-the-dbcontext)
-- [Injecting the Repository Pattern](#injecting-the-efcorerepositorypattern-services)
-- [Creating the Service](#creating-the-service)
-- [IUnitOfWork methods](#unitofwork)
-- [IRepository methods](#repository-methods)
+- [Creating the Repository Implementation](#creating-the-repository-implementation)
+- [Creating the Unit Of Work implementation](#creating-the-unit-of-work-implementation)
+- [Injecting the RepositoryPattern's Services](#injecting-the-repositorypatterns-services)
+- [Repository Pattern Implementations](#repository-pattern-implementations)
 
 ## Installation
 
@@ -147,3 +147,14 @@ builder.Services.AddRepositoryPattern(options => {
     	.UseUnitOfWorkImplementation<UnitOfWork>();
 }, ServiceLifeTime.Transient);
 ```
+
+## Repository Pattern Implementations
+
+While the `RepositoryPattern.Abstractions` provides the necessary abstractions for implementing generic repositories and
+unit of work, it's recommended to use one of the specialized libraries that build upon these abstractions for specific
+data access technologies.
+
+For Entity Framework Core, consider using the `RepositoryPattern.EntityFrameworkCore` library, which enhances
+compatibility and simplifies integration with EF Core features. For more information consult
+the [Readme file](../RepositoryPattern.EntityFrameworkCore/README.md) or
+the [online documentation](https://q-rtix.github.io/RepositoryPattern/docs/efcore/introduction.html).
