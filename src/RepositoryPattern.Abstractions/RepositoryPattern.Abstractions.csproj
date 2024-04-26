@@ -20,8 +20,8 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>2.0.1</Version>
-		<PackageReleaseNotes>fix docs</PackageReleaseNotes>
+		<Version>2.0.2</Version>
+		<PackageReleaseNotes>remove unused dependencies</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -40,16 +40,6 @@
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
 	  <DocumentationFile>bin\Release\RepositoryPattern.xml</DocumentationFile>
 	</PropertyGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3"/>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.17"/>
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
