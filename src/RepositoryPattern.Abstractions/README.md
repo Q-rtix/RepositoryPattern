@@ -155,4 +155,6 @@ unit of work, it's recommended to use one of the specialized libraries that buil
 data access technologies.
 
 For Entity Framework Core, consider using the `RepositoryPattern.EntityFrameworkCore` library, which enhances
-compatibility and simplifies integration with EF Core features. For more information consult the [Readme file](../RepositoryPattern.EntityFrameworkCore/README.md) or the [online documentation](https://q-rtix.github.io/RepositoryPattern/docs/efcore/introduction.html).
+compatibility and simplifies integration with EF Core features. For more information consult
+the [Readme file](../RepositoryPattern.EntityFrameworkCore/README.md) or
+the [online documentation](https://q-rtix.github.io/RepositoryPattern/docs/efcore/introduction.html).
