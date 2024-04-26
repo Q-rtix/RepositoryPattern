@@ -10,23 +10,25 @@
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 		<Authors>Carlos J. Ortiz</Authors>
 		<Description>
-			Welcome to the documentation for our Repository Pattern Library! This library provides a convenient way to
+			This library provides a convenient way to
 			implement the repository pattern with Entity Framework Core in your .NET applications. By using this
 			library, you can decouple your data access logic from your business logic, resulting in a more maintainable
 			and testable codebase.
 		</Description>
-		<RepositoryUrl>https://github.com/Q-rtix/EFCore</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Q-rtix/RepositoryPattern</RepositoryUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Title>RepositoryPattern.EntityFrameworkCore</Title>
-		<Version>1.0.0</Version>
+		
+		<PackageId>Qrtix.RepositoryPattern.EntityFrameworkCore</PackageId>
+		<Version>1.0.1</Version>
+		<PackageReleaseNotes>fix docs</PackageReleaseNotes>
+		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
-		<PackageId>Qrtix.RepositoryPattern.EntityFrameworkCore</PackageId>
-		<PackageReleaseNotes>First Realese</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>
 			EFCore, RepositoryPattern, EF, EFCore.RepositoryPattern, EFCore.RepositoryPattern, EntityFrameworkCore, EntityFramework.RepositoryPattern,
-			RepositoryPattern
+			RepositoryPattern, RepositoryPattern.Abstractions
 		</PackageTags>
 		<Copyright>Copyright (c) Carlos J. Ortiz. All rights reserved.</Copyright>
 		<PackageProjectUrl>https://github.com/users/Q-rtix/projects/1</PackageProjectUrl>

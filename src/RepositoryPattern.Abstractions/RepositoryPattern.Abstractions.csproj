@@ -10,7 +10,7 @@
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 		<Authors>Carlos J. Ortiz</Authors>
 		<Description>
-			Welcome to the documentation for our Repository Pattern Library! This library provides a convenient
+			This library provides a convenient
 			abstraction to emplement the repository pattern in your .NET applications. By using this
 			library, you can decouple your data access logic from your business logic, resulting in a more maintainable
 			and testable codebase.
@@ -20,8 +20,8 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>2.0.0</Version>
-		<PackageReleaseNotes>Invert the default value of the savechanges parameter.</PackageReleaseNotes>
+		<Version>2.0.1</Version>
+		<PackageReleaseNotes>fix docs</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
