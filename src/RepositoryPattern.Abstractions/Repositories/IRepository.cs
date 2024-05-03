@@ -28,9 +28,11 @@ public interface IRepository<TEntity> where TEntity : class
 	///     (Optional) <see langword="true" /> to disable change tracking; otherwise, <see langword="false" />. The default is
 	///     <see langword="false" />.
 	/// </param>
-	/// <param name="includes"></param>
 	/// <param name="orderBy">
 	///     (Optional) A lambda expression to specify the order of the retrieved entities.
+	/// </param>
+	/// <param name="includes">
+	///		(Optional) A list with the expressions for related entities to be included with the retrieved entities.
 	/// </param>
 	/// <returns>
 	///     An <see cref="IQueryable{TEntity}" /> with all existing <typeparamref name="TEntity" />
