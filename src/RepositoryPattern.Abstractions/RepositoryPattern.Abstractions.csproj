@@ -20,8 +20,8 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>3.0.0</Version>
-		<PackageReleaseNotes>change params on get repository methods</PackageReleaseNotes>
+		<Version>4.0.0</Version>
+		<PackageReleaseNotes>fix params changeson get repository methods</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
