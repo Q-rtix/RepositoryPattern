@@ -33,10 +33,10 @@ internal static class RepositoryQueryExtensions
 	}
 	
 	internal static IQueryable<T> ApplyFiltering<T>(this IQueryable<T> query,
-		Expression<Func<T, bool>>? filters = null)
+		Expression<Func<T, bool>>[]? filters = null)
 	{
 		ArgumentNullException.ThrowIfNull(query);
 		
-		return filters is null ? query : query.Where(filters);
+		return filters is null ? query : filters.Aggregate(query, (current, filter) => current.Where(filter));
 	}
 }

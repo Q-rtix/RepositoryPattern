@@ -57,114 +57,6 @@ public class RepositoryOfTEntityTests
 		_context.ChangeTracker.Clear();
 	}
 
-	[Fact]
-	public async Task GetManyAsync_NoFilters_ReturnsAll()
-	{
-		// Act
-		var result = await _repository.GetManyAsync();
-
-		// Assert
-		result.Should().BeEquivalentTo(_context.Set<TestEntity>());
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task GetManyAsync_WithFilter_FiltersCorrectly()
-	{
-		// Arrange
-		_context.Set<TestEntity>().Add(new TestEntity { Id = 1111, Name = "Test 1111" });
-		await _context.SaveChangesAsync();
-		
-		// Act
-		var result = await _repository.GetManyAsync(e => e.Id == 1111);
-
-		// Assert
-		result.Count().Should().Be(1);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task GetManyAsync_WithOrderBy_OrdersCorrectly()
-	{
-		// Act
-		var result = await _repository.GetManyAsync(orderBy: q => q.OrderBy(e => e.Id));
-
-		// Assert
-		result.Should().BeInAscendingOrder(e => e.Id);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task GetManyAsync_DisableTracking_DoesNotTrackEntities()
-	{
-		// Arrange
-		var entities = await _repository.Data.ToListAsync();
-
-		// Act
-		var result = await _repository.GetManyAsync(disableTracking: true);
-
-		// Assert
-		result.AsEnumerable().All(e => _context.Entry(e).State == EntityState.Detached).Should().BeTrue();
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task GetManyAsync_WithIncludes_IncludesRelatedEntities()
-	{
-		// Arrange
-		List<RelatedTestEntity> relatedTestEntities =
-		[
-			new RelatedTestEntity { Id = 91, Name = "Related 1", TestEntityId = 1 },
-			new RelatedTestEntity { Id = 92, Name = "Related 2", TestEntityId = 2 },
-			new RelatedTestEntity { Id = 93, Name = "Related 3", TestEntityId = 2 },
-			new RelatedTestEntity { Id = 94, Name = "Related 4", TestEntityId = 3 },
-			new RelatedTestEntity { Id = 95, Name = "Related 5", TestEntityId = 3 },
-			new RelatedTestEntity { Id = 96, Name = "Related 6", TestEntityId = 3 }
-		];
-		IEnumerable<TestEntity> testEntities =
-		[
-			new TestEntity { Id = 91, Name = "Test 1", RelatedTestEntities = [relatedTestEntities[0]] },
-			new TestEntity
-				{ Id = 92, Name = "Test 2", RelatedTestEntities = [relatedTestEntities[1], relatedTestEntities[2]] },
-			new TestEntity
-			{
-				Id = 93, Name = "Test 3",
-				RelatedTestEntities = [relatedTestEntities[3], relatedTestEntities[4], relatedTestEntities[5]]
-			},
-		];
-		await _context.AddRangeAsync(relatedTestEntities);
-		await _context.AddRangeAsync(testEntities);
-		await _context.SaveChangesAsync();
-		var includes = new Expression<Func<TestEntity, object>>[] { e => e.RelatedTestEntities };
-
-		// Act
-		var result = await _repository.GetManyAsync(includes: includes);
-
-		// Assert
-		result.Any(e => e.RelatedTestEntities.Count != 0).Should().BeTrue();
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task GetManyAsync_WithCancellationToken_HonorsCancellation()
-	{
-		// Arrange
-		var cts = new CancellationTokenSource();
-		cts.Cancel();
-
-		// Act
-		Func<Task> action = async () => await _repository.GetManyAsync(cancellationToken: cts.Token);
-
-		// Assert
-		await action.Should().ThrowAsync<OperationCanceledException>();
-
-		_context.ChangeTracker.Clear();
-	}
 
 	[Fact]
 	public void GetMany_NoFilters_ReturnsAll()
@@ -189,7 +81,7 @@ public class RepositoryOfTEntityTests
 		_context.SaveChanges();
 
 		// Act
-		var result = _repository.GetMany(e => e.Id == 111);
+		var result = _repository.GetMany(filters: e => e.Id == 111);
 
 		// Assert
 		result.Should().ContainSingle(e => e.Id == 111);
@@ -272,7 +164,7 @@ public class RepositoryOfTEntityTests
 		var entity = _repository.Data.First();
 
 		// Act
-		var result = await _repository.GetOneAsync(e => e.Id == entity.Id);
+		var result = await _repository.GetOneAsync();
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -287,7 +179,7 @@ public class RepositoryOfTEntityTests
 		var nonExistingId = _repository.Data.Max(e => e.Id) + 1;
 
 		// Act
-		var result = await _repository.GetOneAsync(e => e.Id == nonExistingId);
+		var result = await _repository.GetOneAsync(filters: e => e.Id == nonExistingId);
 
 		// Assert
 		result.Should().BeNull();
@@ -302,7 +194,7 @@ public class RepositoryOfTEntityTests
 		var entity = _repository.Data.First();
 
 		// Act
-		var result = await _repository.GetOneAsync(e => e.Id == entity.Id, true);
+		var result = await _repository.GetOneAsync(disableTracking: true, filters: e => e.Id == entity.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -319,7 +211,7 @@ public class RepositoryOfTEntityTests
 		var includes = new Expression<Func<TestEntity, object>>[] { e => e.RelatedTestEntities };
 
 		// Act
-		var result = await _repository.GetOneAsync(e => e.Id == entity.Id, includes: includes);
+		var result = await _repository.GetOneAsync(includes: includes, filters: e => e.Id == entity.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -336,7 +228,7 @@ public class RepositoryOfTEntityTests
 		cts.Cancel();
 
 		// Act
-		Func<Task> action = async () => await _repository.GetOneAsync(e => e.Id == 1, cancellationToken: cts.Token);
+		Func<Task> action = async () => await _repository.GetOneAsync(cancellationToken: cts.Token, filters: e => e.Id == 1);
 
 		// Assert
 		await action.Should().ThrowAsync<OperationCanceledException>();
@@ -351,7 +243,7 @@ public class RepositoryOfTEntityTests
 		var entity = _repository.Data.First();
 
 		// Act
-		var result = _repository.GetOne(e => e.Id == entity.Id);
+		var result = _repository.GetOne(filters: e => e.Id == entity.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -363,7 +255,7 @@ public class RepositoryOfTEntityTests
 	public void GetOne_NonExistingEntity_ReturnsNull()
 	{
 		// Act
-		var result = _repository.GetOne(e => e.Id == 999);
+		var result = _repository.GetOne(filters: e => e.Id == 999);
 
 		// Assert
 		result.Should().BeNull();
@@ -378,7 +270,7 @@ public class RepositoryOfTEntityTests
 		var entity = _repository.Data.First();
 
 		// Act
-		var result = _repository.GetOne(e => e.Id == entity.Id, true);
+		var result = _repository.GetOne( disableTracking: true, filters: e => e.Id == entity.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -395,7 +287,7 @@ public class RepositoryOfTEntityTests
 		var includes = new Expression<Func<TestEntity, object>>[] { e => e.RelatedTestEntities };
 
 		// Act
-		var result = _repository.GetOne(e => e.Id == entity.Id, includes: includes);
+		var result = _repository.GetOne(includes: includes, filters: e => e.Id == entity.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -444,7 +336,7 @@ public class RepositoryOfTEntityTests
 		var entity = new TestEntity { Id = 612, Name = "Test Entity" };
 
 		// Act
-		var addedEntity = _repository.AddOne(entity);
+		var addedEntity = _repository.AddOne(entity, true);
 
 		// Assert
 		addedEntity.Should().BeSameAs(entity);
@@ -482,28 +374,6 @@ public class RepositoryOfTEntityTests
 		// Assert
 		_repository.Data.Should()
 			.NotContain(e => e == entity);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task AddManyAsync_ShouldAddEntitiesToDbSet()
-	{
-		// Arrange
-		var entities = new List<TestEntity>
-		{
-			new() { Id = 63, Name = "Test Entity 1" },
-			new() { Id = 73, Name = "Test Entity 2" }
-		};
-
-		// Act
-		await _repository.AddManyAsync(entities);
-
-		// Assert
-		_repository.Data.Should()
-			.Contain(e => e == entities[0]);
-		_repository.Data.Should()
-			.Contain(e => e == entities[1]);
 
 		_context.ChangeTracker.Clear();
 	}
@@ -548,28 +418,6 @@ public class RepositoryOfTEntityTests
 			.NotContain(e => e == entities[0]);
 		_repository.Data.Should()
 			.NotContain(e => e == entities[1]);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public void AddMany_ShouldAddEntitiesToDbSet()
-	{
-		// Arrange
-		var entities = new List<TestEntity>
-		{
-			new() { Id = 60, Name = "Test Entity 1" },
-			new() { Id = 70, Name = "Test Entity 2" }
-		};
-
-		// Act
-		_repository.AddMany(entities);
-
-		// Assert
-		_repository.Data.Should()
-			.Contain(e => e == entities[0]);
-		_repository.Data.Should()
-			.Contain(e => e == entities[1]);
 
 		_context.ChangeTracker.Clear();
 	}
@@ -732,29 +580,6 @@ public class RepositoryOfTEntityTests
 	}
 
 	[Fact]
-	public async Task UpdateManyAsync_ShouldUpdateEntitiesInDbSet()
-	{
-		// Arrange
-		var entities = new List<TestEntity>
-		{
-			new() { Id = 256, Name = "Test Entity 1" },
-			new() { Id = 257, Name = "Test Entity 2" }
-		};
-		await _repository.AddManyAsync(entities);
-
-		entities[0].Name = "Updated Test Entity 1";
-		entities[1].Name = "Updated Test Entity 2";
-
-		// Act
-		await _repository.UpdateManyAsync(entities);
-
-		// Assert
-		_repository.Data.Should().Contain(entities);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
 	public async Task UpdateManyAsync_ShouldSaveChangesToDatabase_WhenSaveChangesIsTrue()
 	{
 		// Arrange
@@ -763,7 +588,7 @@ public class RepositoryOfTEntityTests
 			new() { Id = 536, Name = "Test Entity 1" },
 			new() { Id = 537, Name = "Test Entity 2" }
 		};
-		await _repository.AddManyAsync(entities);
+		await _repository.AddManyAsync(entities, true);
 
 		entities[0].Name = "Updated Test Entity 1";
 		entities[1].Name = "Updated Test Entity 2";
@@ -806,29 +631,6 @@ public class RepositoryOfTEntityTests
 	}
 
 	[Fact]
-	public void UpdateMany_ShouldUpdateEntitiesInDbSet()
-	{
-		// Arrange
-		var entities = new List<TestEntity>
-		{
-			new() { Id = 546, Name = "Test Entity 1" },
-			new() { Id = 547, Name = "Test Entity 2" }
-		};
-		_repository.AddMany(entities);
-
-		entities[0].Name = "Updated Test Entity 1";
-		entities[1].Name = "Updated Test Entity 2";
-
-		// Act
-		_repository.UpdateMany(entities);
-
-		// Assert
-		_repository.Data.Should().Contain(entities);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
 	public void UpdateMany_ShouldSaveChangesToDatabase_WhenSaveChangesIsTrue()
 	{
 		// Arrange
@@ -837,7 +639,7 @@ public class RepositoryOfTEntityTests
 			new() { Id = 456, Name = "Test Entity 1" },
 			new() { Id = 457, Name = "Test Entity 2" }
 		};
-		_repository.AddMany(entities);
+		_repository.AddMany(entities, true);
 
 		entities[0].Name = "Updated Test Entity 1";
 		entities[1].Name = "Updated Test Entity 2";
@@ -917,7 +719,7 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 643, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
+		await _repository.AddOneAsync(entity, true);
 
 		// Act
 		await _repository.RemoveOneAsync(entity, false);
@@ -967,7 +769,7 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 605, Name = "Test Entity" };
-		_repository.AddOne(entity);
+		_repository.AddOne(entity, true);
 
 		// Act
 		_repository.RemoveOne(entity, false);
@@ -984,10 +786,10 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 166, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
+		await _repository.AddOneAsync(entity, true);
 
 		// Act
-		var removedEntity = await _repository.RemoveOneAsync(e => e.Id == entity.Id);
+		var removedEntity = await _repository.RemoveOneAsync([e => e.Id == entity.Id], true);
 
 		// Assert
 		_repository.Data.Should().NotContain(removedEntity);
@@ -1002,7 +804,7 @@ public class RepositoryOfTEntityTests
 		var entity = new TestEntity { Id = 186, Name = "Test Entity" };
 
 		// Act
-		Func<Task> act = () => _repository.RemoveOneAsync(e => e.Id == entity.Id);
+		Func<Task> act = () => _repository.RemoveOneAsync([e => e.Id == entity.Id]);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentException>()
@@ -1016,10 +818,10 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 176, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
+		await _repository.AddOneAsync(entity, true);
 
 		// Act
-		await _repository.RemoveOneAsync(e => e.Id == entity.Id, true);
+		await _repository.RemoveOneAsync([e => e.Id == entity.Id], true);
 
 		// Assert
 		var removedEntity = await _context.Set<TestEntity>().FindAsync(entity.Id);
@@ -1033,10 +835,10 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 146, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
+		await _repository.AddOneAsync(entity, true);
 
 		// Act
-		await _repository.RemoveOneAsync(e => e.Id == entity.Id, false);
+		await _repository.RemoveOneAsync([e => e.Id == entity.Id], false);
 
 		// Assert
 		var removedEntity = await _context.Set<TestEntity>().FindAsync(entity.Id);
@@ -1050,10 +852,10 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 657, Name = "Test Entity" };
-		_repository.AddOne(entity);
+		_repository.AddOne(entity, true);
 
 		// Act
-		var removedEntity = _repository.RemoveOne(e => e.Id == entity.Id);
+		var removedEntity = _repository.RemoveOne([e => e.Id == entity.Id], true);
 
 		// Assert
 		_repository.Data.Should().NotContain(removedEntity);
@@ -1068,7 +870,7 @@ public class RepositoryOfTEntityTests
 		var entity = new TestEntity { Id = 676, Name = "Test Entity" };
 
 		// Act
-		Action act = () => _repository.RemoveOne(e => e.Id == entity.Id);
+		Action act = () => _repository.RemoveOne([e => e.Id == entity.Id]);
 
 		// Assert
 		act.Should().Throw<ArgumentException>()
@@ -1082,10 +884,10 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 665, Name = "Test Entity" };
-		_repository.AddOne(entity);
+		_repository.AddOne(entity, true);
 
 		// Act
-		_repository.RemoveOne(e => e.Id == entity.Id, true);
+		_repository.RemoveOne([e => e.Id == entity.Id], true);
 
 		// Assert
 		var removedEntity = _context.Set<TestEntity>().Find(entity.Id);
@@ -1099,10 +901,10 @@ public class RepositoryOfTEntityTests
 	{
 		// Arrange
 		var entity = new TestEntity { Id = 695, Name = "Test Entity" };
-		_repository.AddOne(entity);
+		_repository.AddOne(entity, true);
 
 		// Act
-		_repository.RemoveOne(e => e.Id == entity.Id, false);
+		_repository.RemoveOne([e => e.Id == entity.Id], false);
 
 		// Assert
 		var removedEntity = _context.Set<TestEntity>().Find(entity.Id);
@@ -1161,7 +963,7 @@ public class RepositoryOfTEntityTests
 			new() { Id = 100, Name = "Entity 1" },
 			new() { Id = 200, Name = "Entity 2" }
 		};
-		await _repository.AddManyAsync(entities);
+		await _repository.AddManyAsync(entities, true);
 
 		// Act
 		await _repository.RemoveManyAsync(entities, false);
@@ -1224,7 +1026,7 @@ public class RepositoryOfTEntityTests
 			new() { Id = 11, Name = "Entity 1" },
 			new() { Id = 12, Name = "Entity 2" }
 		};
-		_repository.AddMany(entities);
+		_repository.AddMany(entities, true);
 
 		// Act
 		_repository.RemoveMany(entities, false);
@@ -1241,7 +1043,7 @@ public class RepositoryOfTEntityTests
 	public async Task RemoveManyAsync_UsingFilters_ShouldRemoveEntitiesFromDbSet_WhenEntitiesExist()
 	{
 		// Act
-		await _repository.RemoveManyAsync(e => e.Id == 4 || e.Id == 5);
+		await _repository.RemoveManyAsync([e => e.Id == 4, e => e.Id == 5]);
 
 		// Assert
 		_repository.Data.Where(e => e.Id == 4 || e.Id == 5).Should().BeNullOrEmpty();
@@ -1253,7 +1055,7 @@ public class RepositoryOfTEntityTests
 	public async Task RemoveManyAsync_UsingFilters_ShouldSaveChangesToDatabase_WhenSaveChangesIsTrue()
 	{
 		// Act
-		await _repository.RemoveManyAsync(e => e.Id == 6 || e.Id == 7);
+		await _repository.RemoveManyAsync([e => e.Id == 6 || e.Id == 7], true);
 
 		// Assert
 		_context.Set<TestEntity>()
@@ -1267,7 +1069,7 @@ public class RepositoryOfTEntityTests
 	public async Task RemoveManyAsync_UsingFilters_ShouldNotSaveChangesToDatabase_WhenSaveChangesIsFalse()
 	{
 		// Act
-		await _repository.RemoveManyAsync(e => e.Id == 4 || e.Id == 5, false);
+		await _repository.RemoveManyAsync([e => e.Id == 4 || e.Id == 5], false);
 
 		// Assert
 		var removedEntities = _context.Set<TestEntity>()
@@ -1289,7 +1091,7 @@ public class RepositoryOfTEntityTests
 		_repository.AddMany(entities);
 
 		// Act
-		_repository.RemoveMany(e => entities.Select(e => e.Id).Contains(e.Id));
+		_repository.RemoveMany([e => entities.Select(testEntity => testEntity.Id).Contains(e.Id)]);
 
 		// Assert
 		_repository.Data.Should().NotContain(entities);
@@ -1309,7 +1111,7 @@ public class RepositoryOfTEntityTests
 		_repository.AddMany(entities);
 
 		// Act
-		_repository.RemoveMany(e => e.Id == entities[0].Id || e.Id == entities[1].Id, true);
+		_repository.RemoveMany([e => e.Id == entities[0].Id || e.Id == entities[1].Id], true);
 
 		// Assert
 		var removedEntities = _context.Set<TestEntity>()
@@ -1328,10 +1130,10 @@ public class RepositoryOfTEntityTests
 			new() { Id = 41, Name = "Entity 1" },
 			new() { Id = 42, Name = "Entity 2" }
 		};
-		_repository.AddMany(entities);
+		_repository.AddMany(entities, true);
 
 		// Act
-		_repository.RemoveMany(e => e.Id == entities[0].Id || e.Id == entities[1].Id, false);
+		_repository.RemoveMany([e => e.Id == entities[0].Id || e.Id == entities[1].Id], false);
 
 		// Assert
 		var removedEntities = _context.Set<TestEntity>()
