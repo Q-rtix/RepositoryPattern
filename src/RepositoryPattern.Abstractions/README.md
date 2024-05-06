@@ -9,6 +9,11 @@ This implementation uses a single instance of the DbContext for all repositories
 
 Consult the online [documentation](https://q-rtix.github.io/RepositoryPattern/) for more details.
 
+> [!Tip]
+> You can leverage the `Qrtix.RepositoryPattern.EntityFrameworkCore` library as the implementation for
+> `Qrtix.RepositoryPattern.Abstractions`. Consult the [Getting Started](https://q-rtix.github.io/RepositoryPattern/docs/efcore/getting-started.html)
+> guide for more details.
+
 ## Table of Contents
 
 - [Installation](#installation)

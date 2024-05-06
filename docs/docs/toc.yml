@@ -8,3 +8,5 @@
   items:
     - name: Getting Started
       href: efcore/getting-started.md
+    - name: Basic Tutorials
+      href: efcore/basic-tutorials.md
