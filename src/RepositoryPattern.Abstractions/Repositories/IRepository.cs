@@ -7,17 +7,8 @@ namespace RepositoryPattern.Abstractions.Repositories;
 ///     within an Entity Framework Core context.
 /// </summary>
 /// <typeparam name="TEntity">The type of entities managed by this repository.</typeparam>
-public interface IRepository<TEntity> where TEntity : class
+public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : class
 {
-	/// <summary>
-	///     Retrieves all entities from the repository.
-	/// </summary>
-	/// <returns>
-	///     An <see cref="IQueryable{TEntity}" /> with all existing <typeparamref name="TEntity" />
-	///     elements.
-	/// </returns>
-	IQueryable<TEntity> Data { get; }
-
 	/// <summary>
 	///     Synchronously retrieves multiple entities from the repository based on filters criteria.
 	/// </summary>
@@ -99,10 +90,6 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entity">
 	///     The entity to be created.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been inserted; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
 	/// </param>
@@ -110,23 +97,19 @@ public interface IRepository<TEntity> where TEntity : class
 	///     A task that represents the asynchronous operation.
 	///     The task result is the created entity.
 	/// </returns>
-	Task<TEntity> AddOneAsync(TEntity entity, bool saveChanges = false,
+	Task<TEntity> AddOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default);
-	
+
 	/// <summary>
 	///     Synchronously creates a single entity into the repository.
 	/// </summary>
 	/// <param name="entity">
 	///     The entity to be created.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been inserted; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <returns>
 	///     The created entity.
 	/// </returns>
-	TEntity AddOne(TEntity entity, bool saveChanges = false);
+	TEntity AddOne(TEntity entity);
 
 	/// <summary>
 	///     Asynchronously creates multiple entities into the repository.
@@ -134,40 +117,28 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entities">
 	///     A collection of entities to be created.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been inserted; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
 	/// </returns>
-	Task AddManyAsync(IEnumerable<TEntity> entities, bool saveChanges = false,
+	Task AddManyAsync(IEnumerable<TEntity> entities,
 		CancellationToken cancellationToken = default);
-	
+
 	/// <summary>
 	///     Synchronously creates multiple entities into the repository.
 	/// </summary>
 	/// <param name="entities">
 	///     A collection of entities to be created.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been inserted; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
-	void AddMany(IEnumerable<TEntity> entities, bool saveChanges = false);
+	void AddMany(IEnumerable<TEntity> entities);
 
 	/// <summary>
 	///     Asynchronously updates a single entity in the repository.
 	/// </summary>
 	/// <param name="entity">
 	///     The entity to be updated.
-	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been updated; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
 	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
@@ -176,23 +147,19 @@ public interface IRepository<TEntity> where TEntity : class
 	///     A task that represents the asynchronous operation.
 	///     The task result is the updated entity.
 	/// </returns>
-	Task<TEntity> UpdateOneAsync(TEntity entity, bool saveChanges = false,
+	Task<TEntity> UpdateOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default);
-	
+
 	/// <summary>
 	///     Synchronously updates a single entity in the repository.
 	/// </summary>
 	/// <param name="entity">
 	///     The entity to be updated.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been updated; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <returns>
 	///     The updated entity.
 	/// </returns>
-	TEntity UpdateOne(TEntity entity, bool saveChanges = false);
+	TEntity UpdateOne(TEntity entity);
 
 	/// <summary>
 	///     Asynchronously updates multiple entities in the repository.
@@ -200,17 +167,13 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entities">
 	///     A collection of entities to be updated.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been updated; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
 	/// </returns>
-	Task UpdateManyAsync(IEnumerable<TEntity> entities, bool saveChanges = false,
+	Task UpdateManyAsync(IEnumerable<TEntity> entities,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -219,21 +182,13 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entities">
 	///     A collection of entities to be updated.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been updated; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
-	void UpdateMany(IEnumerable<TEntity> entities, bool saveChanges = false);
+	void UpdateMany(IEnumerable<TEntity> entities);
 
 	/// <summary>
 	///     Asynchronously removes a single entity from the repository.
 	/// </summary>
 	/// <param name="entity">
 	///     The entity to be removed.
-	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
 	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
@@ -242,7 +197,7 @@ public interface IRepository<TEntity> where TEntity : class
 	///     A task that represents the asynchronous operation.
 	///     The task result is the removed entity.
 	/// </returns>
-	Task<TEntity> RemoveOneAsync(TEntity entity, bool saveChanges = false,
+	Task<TEntity> RemoveOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -251,24 +206,16 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entity">
 	///     The entity to be removed.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <returns>
 	///     The removed entity.
 	/// </returns>
-	TEntity RemoveOne(TEntity entity, bool saveChanges = false);
+	TEntity RemoveOne(TEntity entity);
 
 	/// <summary>
 	///     Asynchronously removes a single entity from the repository based on filters criteria.
 	/// </summary>
 	/// <param name="filters">
 	///     A lambda expression to test each entity for a condition.
-	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
 	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
@@ -280,18 +227,14 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <exception cref="System.ArgumentException">
 	///     Thrown when no entity matching the filters criteria is found in the repository.
 	/// </exception>
-	Task<TEntity> RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false,
+	Task<TEntity> RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters,
 		CancellationToken cancellationToken = default);
-	
+
 	/// <summary>
 	///     Synchronously removes a single entity from the repository based on filters criteria.
 	/// </summary>
 	/// <param name="filters">
 	///     A lambda expression to test each entity for a condition.
-	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entity has been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
 	/// </param>
 	/// <returns>
 	///     The removed entity.
@@ -299,7 +242,7 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <exception cref="System.ArgumentException">
 	///     Thrown when no entity matching the filters criteria is found in the repository.
 	/// </exception>
-	TEntity RemoveOne(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false);
+	TEntity RemoveOne(Expression<Func<TEntity, bool>>[] filters);
 
 	/// <summary>
 	///     Asynchronously removes multiple entities from the repository.
@@ -307,17 +250,13 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entities">
 	///     A collection of entities to be removed.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
 	/// </returns>
-	Task RemoveManyAsync(IEnumerable<TEntity> entities, bool saveChanges = false,
+	Task RemoveManyAsync(IEnumerable<TEntity> entities,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -326,11 +265,7 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="entities">
 	///     A collection of entities to be removed.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
-	void RemoveMany(IEnumerable<TEntity> entities, bool saveChanges = false);
+	void RemoveMany(IEnumerable<TEntity> entities);
 
 	/// <summary>
 	///     Asynchronously removes multiple entities from the repository based on filters criteria.
@@ -338,17 +273,13 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="filters">
 	///     A lambda expression to test each entity for a condition.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
 	/// <param name="cancellationToken">
 	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
 	/// </returns>
-	Task RemoveManyAsync(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false,
+	Task RemoveManyAsync(Expression<Func<TEntity, bool>>[] filters,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -357,29 +288,5 @@ public interface IRepository<TEntity> where TEntity : class
 	/// <param name="filters">
 	///     A lambda expression to test each entity for a condition.
 	/// </param>
-	/// <param name="saveChanges">
-	///     (Optional) <see langword="true" /> to save changes after the entities have been removed; otherwise,
-	///     <see langword="false" />. The default is <see langword="false" />.
-	/// </param>
-	void RemoveMany(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false);
-
-	/// <summary>
-	///     Asynchronously saves changes to the repository.
-	/// </summary>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	///     The task result is the number of entities affected by the save operation.
-	/// </returns>
-	Task<int> SaveAsync(CancellationToken cancellationToken = default);
-	
-	/// <summary>
-	///     Synchronously saves changes to the repository.
-	/// </summary>
-	/// <returns>
-	///     The number of entities affected by the save operation.
-	/// </returns>
-	int Save();
+	void RemoveMany(Expression<Func<TEntity, bool>>[] filters);
 }
