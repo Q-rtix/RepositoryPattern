@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
@@ -10,17 +11,12 @@ namespace RepositoryPattern.EntityFrameworkCore.Repositories;
 internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
 	private readonly DbSet<TEntity> _dbSet;
-	private readonly DbContext _context;
-
 
 	public Repository(DbContext context)
 	{
-		_context = context;
 		_dbSet = context.Set<TEntity>();
 	}
 
-
-	public IQueryable<TEntity> Data => _dbSet;
 
 	public IQueryable<TEntity> GetMany(IEnumerable<Expression<Func<TEntity, object>>>? includes = null,
 		bool disableTracking = false, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
@@ -48,92 +44,66 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 			.FirstOrDefault();
 
 
-	public async Task<TEntity> AddOneAsync(TEntity entity, bool saveChanges = false,
+	public async Task<TEntity> AddOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default)
 	{
 		var entry = await _dbSet.AddAsync(entity, cancellationToken);
-		if (saveChanges)
-			await _context.SaveChangesAsync(cancellationToken);
 		return entry.Entity;
 	}
 
-	public TEntity AddOne(TEntity entity, bool saveChanges = false)
+	public TEntity AddOne(TEntity entity)
 	{
 		var entry = _dbSet.Add(entity);
-		if (saveChanges)
-			_context.SaveChanges();
 		return entry.Entity;
 	}
 
 
-	public async Task AddManyAsync(IEnumerable<TEntity> entities, bool saveChanges = false,
-		CancellationToken cancellationToken = default)
-	{
-		await _dbSet.AddRangeAsync(entities, cancellationToken);
-		if (saveChanges)
-			await _context.SaveChangesAsync(cancellationToken);
-	}
+	public async Task AddManyAsync(IEnumerable<TEntity> entities,
+		CancellationToken cancellationToken = default) 
+		=> await _dbSet.AddRangeAsync(entities, cancellationToken);
 
-	public void AddMany(IEnumerable<TEntity> entities, bool saveChanges = false)
-	{
-		_dbSet.AddRange(entities);
-		if (saveChanges)
-			_context.SaveChanges();
-	}
+	public void AddMany(IEnumerable<TEntity> entities) => _dbSet.AddRange(entities);
 
-	public async Task<TEntity> UpdateOneAsync(TEntity entity, bool saveChanges = false,
+	public async Task<TEntity> UpdateOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default)
 	{
 		var entry = _dbSet.Update(entity);
-		if (saveChanges)
-			await _context.SaveChangesAsync(cancellationToken);
 		return entry.Entity;
 	}
 
-	public TEntity UpdateOne(TEntity entity, bool saveChanges = false)
+	public TEntity UpdateOne(TEntity entity)
 	{
 		var entry = _dbSet.Update(entity);
-		if (saveChanges)
-			_context.SaveChanges();
 		return entry.Entity;
 	}
 
-	public async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool saveChanges = false,
+	public async Task UpdateManyAsync(IEnumerable<TEntity> entities,
 		CancellationToken cancellationToken = default)
 	{
 		_dbSet.UpdateRange(entities);
-		if (saveChanges)
-			await _context.SaveChangesAsync(cancellationToken);
 	}
 
-	public void UpdateMany(IEnumerable<TEntity> entities, bool saveChanges = false)
+	public void UpdateMany(IEnumerable<TEntity> entities)
 	{
 		_dbSet.UpdateRange(entities);
-		if (saveChanges)
-			_context.SaveChanges();
 	}
 
 
-	public async Task<TEntity> RemoveOneAsync(TEntity entity, bool saveChanges = false,
+	public async Task<TEntity> RemoveOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default)
 	{
 		var entry = _dbSet.Remove(entity);
-		if (saveChanges)
-			await _context.SaveChangesAsync(cancellationToken);
 		return entry.Entity;
 	}
 
-	public TEntity RemoveOne(TEntity entity, bool saveChanges = false)
+	public TEntity RemoveOne(TEntity entity)
 	{
 		var entry = _dbSet.Remove(entity);
-		if (saveChanges)
-			_context.SaveChanges();
 		return entry.Entity;
 	}
 
 
 	public async Task<TEntity> RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters,
-		bool saveChanges = false,
 		CancellationToken cancellationToken = default)
 	{
 		var entity = await GetOneAsync(cancellationToken: cancellationToken, filters: filters);
@@ -141,52 +111,48 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 		if (entity is null)
 			throw new ArgumentException($"{typeof(TEntity).Name} not found", nameof(filters));
 
-		return await RemoveOneAsync(entity, saveChanges, cancellationToken);
+		return await RemoveOneAsync(entity, cancellationToken);
 	}
 
-	public TEntity RemoveOne(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false)
+	public TEntity RemoveOne(Expression<Func<TEntity, bool>>[] filters)
 	{
 		var entity = GetOne(filters: filters);
 		if (entity is null)
 			throw new ArgumentException($"{typeof(TEntity).Name} not found", nameof(filters));
 
-		return RemoveOne(entity, saveChanges);
+		return RemoveOne(entity);
 	}
 
-	public async Task RemoveManyAsync(IEnumerable<TEntity> entities, bool saveChanges = false,
+	public async Task RemoveManyAsync(IEnumerable<TEntity> entities,
 		CancellationToken cancellationToken = default)
-	{
-		_dbSet.RemoveRange(entities);
-		if (saveChanges)
-			await _context.SaveChangesAsync(cancellationToken);
-	}
+		=> await Task.Run(() => _dbSet.RemoveRange(entities), cancellationToken);
 
-	public void RemoveMany(IEnumerable<TEntity> entities, bool saveChanges = false)
-	{
-		_dbSet.RemoveRange(entities);
-		if (saveChanges)
-			_context.SaveChanges();
-	}
+	public void RemoveMany(IEnumerable<TEntity> entities) => _dbSet.RemoveRange(entities);
 
-	public async Task RemoveManyAsync(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false,
+	public async Task RemoveManyAsync(Expression<Func<TEntity, bool>>[] filters,
 		CancellationToken cancellationToken = default)
 	{
 		var entities = GetMany(filters: filters);
 		if (!entities.Any())
 			return;
-		await RemoveManyAsync(entities, saveChanges, cancellationToken);
+		await RemoveManyAsync(entities, cancellationToken);
 	}
 
-	public void RemoveMany(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false)
+	public void RemoveMany(Expression<Func<TEntity, bool>>[] filters)
 	{
 		var entities = GetMany(filters: filters);
 		if (!entities.Any())
 			return;
-		RemoveMany(entities, saveChanges);
+		RemoveMany(entities);
 	}
 
-	public async Task<int> SaveAsync(CancellationToken cancellationToken = default) =>
-		await _context.SaveChangesAsync(cancellationToken);
+	public IEnumerator<TEntity> GetEnumerator()
+		=> _dbSet.AsQueryable().GetEnumerator();
 
-	public int Save() => _context.SaveChanges();
+	IEnumerator IEnumerable.GetEnumerator()
+		=> GetEnumerator();
+
+	public Type ElementType => _dbSet.AsQueryable().ElementType;
+	public Expression Expression => _dbSet.AsQueryable().Expression;
+	public IQueryProvider Provider => _dbSet.AsQueryable().Provider;
 }
