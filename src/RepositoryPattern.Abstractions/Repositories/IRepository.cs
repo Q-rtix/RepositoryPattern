@@ -7,17 +7,8 @@ namespace RepositoryPattern.Abstractions.Repositories;
 ///     within an Entity Framework Core context.
 /// </summary>
 /// <typeparam name="TEntity">The type of entities managed by this repository.</typeparam>
-public interface IRepository<TEntity> where TEntity : class
+public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : class
 {
-	/// <summary>
-	///     Retrieves all entities from the repository.
-	/// </summary>
-	/// <returns>
-	///     An <see cref="IQueryable{TEntity}" /> with all existing <typeparamref name="TEntity" />
-	///     elements.
-	/// </returns>
-	IQueryable<TEntity> Data { get; }
-
 	/// <summary>
 	///     Synchronously retrieves multiple entities from the repository based on filters criteria.
 	/// </summary>
@@ -362,24 +353,4 @@ public interface IRepository<TEntity> where TEntity : class
 	///     <see langword="false" />. The default is <see langword="false" />.
 	/// </param>
 	void RemoveMany(Expression<Func<TEntity, bool>>[] filters, bool saveChanges = false);
-
-	/// <summary>
-	///     Asynchronously saves changes to the repository.
-	/// </summary>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	///     The task result is the number of entities affected by the save operation.
-	/// </returns>
-	Task<int> SaveAsync(CancellationToken cancellationToken = default);
-	
-	/// <summary>
-	///     Synchronously saves changes to the repository.
-	/// </summary>
-	/// <returns>
-	///     The number of entities affected by the save operation.
-	/// </returns>
-	int Save();
 }

@@ -20,8 +20,12 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>4.0.0</Version>
-		<PackageReleaseNotes>fix params changeson get repository methods</PackageReleaseNotes>
+		<Version>5.0.0</Version>
+		<PackageReleaseNotes>f
+			- Remove the Data property
+			- Improve repository functionality by inherit from IQueryable.
+			- Remove the Save methods from the repository
+		</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
