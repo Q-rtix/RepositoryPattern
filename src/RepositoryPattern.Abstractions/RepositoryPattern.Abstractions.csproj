@@ -23,7 +23,7 @@
 		<Version>5.0.0</Version>
 		<PackageReleaseNotes>f
 			- Remove the Data property
-			- Improve repository functionality by inherit from IQueryable.
+			- Improve repository functionality by inheriting from IQueryable.
 			- Remove the Save methods from the repository
 		</PackageReleaseNotes>
 		
