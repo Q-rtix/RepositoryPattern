@@ -139,8 +139,8 @@ Add the `RepositoryPattern` services to the Service Collection:
 
 ```csharp
 builder.Services.AddRepositoryPattern(options => {
-    options.UseRepositoryImplementation(typeof(Repository<>)
-    	.UseUnitOfWorkImplementation<UnitOfWork>();
+    options.UseRepositoryImplementation(typeof(Repository<>);
+    options.UseUnitOfWorkImplementation<UnitOfWork>();
 });
 ```
 
@@ -149,8 +149,11 @@ The default scope for injected services is scoped. If you want to change it, ref
 ```csharp
 builder.Services.AddRepositoryPattern(options => {
     options.UseRepositoryImplementation(typeof(Repository<>)
-    	.UseUnitOfWorkImplementation<UnitOfWork>();
-}, ServiceLifeTime.Transient);
+		.UseLifeTime(ServiceLifetime.Singletor);
+        
+    options.UseUnitOfWorkImplementation<UnitOfWork>()
+        .UseLifetime(ServiceLifetime.Singleton);
+});
 ```
 
 ## Repository Pattern Implementations
