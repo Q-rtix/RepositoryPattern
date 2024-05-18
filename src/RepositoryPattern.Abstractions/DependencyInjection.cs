@@ -16,27 +16,28 @@ public static class DependencyInjection
 	/// </summary>
 	/// <param name="services">An <see cref="IServiceCollection" /> to add the requisite dependencies and services.</param>
 	/// <param name="options"></param>
-	/// <param name="servicesLifeTime">
-	///     The lifetime with wich to register the repository and unit of work services in the
-	///     container.
-	/// </param>
 	/// <returns>
 	///     An <see cref="IServiceCollection" /> with the requisite dependencies and services for seamless operation of
 	///     this library.
 	/// </returns>
 	/// <exception cref="ArgumentNullException">Thrown when the <see cref="IServiceCollection" /> is null</exception>
-	/// <exception cref="InvalidOperationException">Thrown when the repository pattern options are not configured</exception>
+	/// <exception cref="InvalidOperationException">Thrown when the repository pattern options are not configured or has invalid values</exception>
 	public static IServiceCollection AddRepositoryPattern(this IServiceCollection services,
-		Action<RepositoryPatternOptions> options, ServiceLifetime servicesLifeTime = ServiceLifetime.Scoped)
+		Action<RepositoryPatternOptions> options)
 	{
 		ArgumentNullException.ThrowIfNull(services);
 
 		var repositoryPatternOptions = new RepositoryPatternOptions();
 		options(repositoryPatternOptions);
+		
+		repositoryPatternOptions.IsValid();
 
-		services.TryAdd(new ServiceDescriptor(typeof(IRepository<>), repositoryPatternOptions.RepositoryImplementationType,
-			servicesLifeTime));
-		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), repositoryPatternOptions.UnitOfWorkImplementation, servicesLifeTime));
+		services.TryAdd(new ServiceDescriptor(typeof(IRepository<>),
+			repositoryPatternOptions.RepositoryImplementationType!,
+			repositoryPatternOptions.RepositoryServiceLifetime));
+
+		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), repositoryPatternOptions.UnitOfWorkImplementation!,
+			repositoryPatternOptions.UnitOfWorkServiceLifetime));
 
 		return services;
 	}

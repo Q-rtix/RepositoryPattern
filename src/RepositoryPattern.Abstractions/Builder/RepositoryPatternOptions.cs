@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using RepositoryPattern.Abstractions.Repositories;
 using RepositoryPattern.Abstractions.UnitOfWork;
 
@@ -16,12 +17,24 @@ public class RepositoryPatternOptions
 	/// <summary>
 	///		The type to be used for the repository implementation.
 	/// </summary>
-	public Type RepositoryImplementationType { get; private set; } = null!;
+	public Type? RepositoryImplementationType { get; private set; }
 
 	/// <summary>
 	///		The type to be used for the unit of work implementation.
 	/// </summary>
-	public Type UnitOfWorkImplementation { get; private set; } = null!;
+	public Type? UnitOfWorkImplementation { get; private set; }
+
+	/// <summary>
+	///		The lifetime with which to register the repository in the
+	///		container.
+	/// </summary>
+	public ServiceLifetime RepositoryServiceLifetime { get; set; } = ServiceLifetime.Scoped;
+
+	/// <summary>
+	///		The lifetime with which to register the unit of work services in the
+	///		container.
+	/// </summary>
+	public ServiceLifetime UnitOfWorkServiceLifetime { get; set; } = ServiceLifetime.Scoped;
 
 	/// <summary>
 	///		Configures the repository implementation type to be used.
@@ -70,7 +83,16 @@ public class RepositoryPatternOptions
 		UnitOfWorkImplementation = typeof(TUnitOfWork);
 		return this;
 	}
-
+	
+	internal void IsValid()
+	{
+		if (RepositoryImplementationType is null)
+			throw new InvalidOperationException("The repository implementation type has not been configured");
+		
+		if (UnitOfWorkImplementation is null)
+			throw new InvalidOperationException("The unit of work implementation type has not been configured");
+	}
+	
 	private static bool IsImplementing(Type type, Type interfaceType)
 		=> type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType);
 }

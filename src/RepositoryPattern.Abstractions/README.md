@@ -150,7 +150,7 @@ The default scope for injected services is scoped. If you want to change it, ref
 builder.Services.AddRepositoryPattern(options => {
     options.UseRepositoryImplementation(typeof(Repository<>)
     	.UseUnitOfWorkImplementation<UnitOfWork>();
-}, ServiceLifeTime.Transient);
+});
 ```
 
 ## Repository Pattern Implementations
