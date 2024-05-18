@@ -15,7 +15,7 @@ public static class DependencyInjection
 	///     Integrate and configure the requisite dependencies and services for seamless operation of this library.
 	/// </summary>
 	/// <param name="services">An <see cref="IServiceCollection" /> to add the requisite dependencies and services.</param>
-	/// <param name="options"></param>
+	/// <param name="builder"></param>
 	/// <returns>
 	///     An <see cref="IServiceCollection" /> with the requisite dependencies and services for seamless operation of
 	///     this library.
@@ -23,21 +23,21 @@ public static class DependencyInjection
 	/// <exception cref="ArgumentNullException">Thrown when the <see cref="IServiceCollection" /> is null</exception>
 	/// <exception cref="InvalidOperationException">Thrown when the repository pattern options are not configured or has invalid values</exception>
 	public static IServiceCollection AddRepositoryPattern(this IServiceCollection services,
-		Action<RepositoryPatternOptions> options)
+		Action<RepositoryPatternBuilder> builder)
 	{
 		ArgumentNullException.ThrowIfNull(services);
 
-		var repositoryPatternOptions = new RepositoryPatternOptions();
-		options(repositoryPatternOptions);
+		var options = new RepositoryPatternBuilder();
+		builder(options);
 		
-		repositoryPatternOptions.IsValid();
+		options.IsValid();
 
 		services.TryAdd(new ServiceDescriptor(typeof(IRepository<>),
-			repositoryPatternOptions.RepositoryImplementationType!,
-			repositoryPatternOptions.RepositoryServiceLifetime));
+			options.Repository!.ImplementationType,
+			options.Repository.Lifetime));
 
-		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), repositoryPatternOptions.UnitOfWorkImplementation!,
-			repositoryPatternOptions.UnitOfWorkServiceLifetime));
+		services.TryAdd(new ServiceDescriptor(typeof(IUnitOfWork), options.UnitOfWork!.ImplementationType,
+			options.UnitOfWork.Lifetime));
 
 		return services;
 	}
