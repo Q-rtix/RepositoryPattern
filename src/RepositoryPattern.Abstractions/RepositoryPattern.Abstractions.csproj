@@ -20,9 +20,9 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>5.0.1</Version>
+		<Version>6.0.0</Version>
 		<PackageReleaseNotes>f
-			- Update the README.md file.
+			- Change the way to configure the repository pattern from the constructor to the fluent API.
 		</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
