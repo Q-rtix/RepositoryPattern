@@ -10,9 +10,12 @@ This implementation uses a single instance of the DbContext for all repositories
 Consult the online [documentation](https://q-rtix.github.io/RepositoryPattern/) for more details.
 
 > [!Tip]
-> You can leverage the `Qrtix.RepositoryPattern.EntityFrameworkCore` library as the implementation for
-> `Qrtix.RepositoryPattern.Abstractions`. Consult the [Getting Started](https://q-rtix.github.io/RepositoryPattern/docs/efcore/getting-started.html)
-> guide for more details.
+> While the `Qrtix.RepositoryPattern.Abstractions` provides the necessary abstractions for implementing generic
+> repositories and unit of work, it's recommended to use one of the specialized libraries that build upon these
+> abstractions for specific data access technologies. For Entity Framework Core, consider using 
+> the `Qrtix.RepositoryPattern.EntityFrameworkCore` [library](https://q-rtix.github.io/RepositoryPattern/docs/efcore/getting-started.html), 
+> which enhances compatibility and simplifies integration with
+> EF Core features.
 
 ## Table of Contents
 
