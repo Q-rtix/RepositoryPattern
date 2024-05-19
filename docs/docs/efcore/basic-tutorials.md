@@ -12,7 +12,7 @@ These methods provide powerful querying capabilities and can be used in conjunct
 more complex data operations.
 
 >[!Important]
-> To save changes to the database, use the `SaveChanges` method or the async version from the UnitOfWork.
+> To save changes into the database, use the `SaveChanges` method or the async version from the UnitOfWork.
 
 ## Table of Contents
 
@@ -31,10 +31,10 @@ You can use `GetOne` and `FirstOrDefault` or the async versions to retrieve a si
 public async Task<Product> GetProductByIdAsync(int productId)
 {
 	// You can also use synchronous version of GetOne
-    Product product = await _productRepository.GetOneAsync(p => p.Id == productId);
+    Product product = await _unitOfWork.Repository<Product>().GetOneAsync(p => p.Id == productId);
 
     // You can also use synchronous version of FirstOrDefault
-	product = await _productRepository.FirstOrDefaultAsync(p => p.Id == productId);
+	product = await _unitOfWork.Repository<Product>().FirstOrDefaultAsync(p => p.Id == productId);
 
     if (product == null)
     {
@@ -54,9 +54,9 @@ like `Where`, `OrderBy`, `Select` to filter, sort, and project data directly fro
 public async Task<List<Product>> GetProductsByCategoryAsync(string category)
 {
 	// You can also use synchronous version of GetMany
-	List<Product> products = await _productRepository.GetManyAsync(p => p.Category == category);
+	List<Product> products = await _unitOfWork.Repository<Product>().GetManyAsync(p => p.Category == category);
     
-	products = await _productRepository.Where(p => p.Category == category).ToListAsync();
+	products = await _unitOfWork.Repository<Product>().Where(p => p.Category == category).ToListAsync();
 
     return products;
 }
@@ -71,7 +71,8 @@ You can use `AddOne` or the async versions to save an entity to the repository.
 ```csharp
 public async Task AddProductAsync(Product product)
 {
-	await _productRepository.AddOneAsync(product);
+	await _unitOfWork.Repository<Product>().AddOneAsync(product);
+    await _unitOfWork.SaveAsync();
 }
 ```
 
@@ -82,7 +83,8 @@ You can use `AddMany` or the async versions to save multiple entities to the rep
 ```csharp
 public async Task AddProductsAsync(List<Product> products)
 {
-	await _productRepository.AddManyAsync(products);
+	await _unitOfWork.Repository<Product>().AddManyAsync(products);
+	await _unitOfWork.SaveAsync();
 }
 ```
 
@@ -95,7 +97,8 @@ You can use `UpdateOne` or the async versions to update an entity in the reposit
 ```csharp
 public async Task UpdateProductAsync(Product product)
 {
-	await _productRepository.UpdateOneAsync(product);
+	await _unitOfWork.Repository<Product>().UpdateOneAsync(product);
+    await _unitOfWork.SaveAsync();
 }
 ```
 
@@ -106,7 +109,8 @@ You can use `UpdateMany` or the async versions to update multiple entities in th
 ```csharp
 public async Task UpdateProductsAsync(List<Product> products)
 {
-	await _productRepository.UpdateManyAsync(products);
+	await _unitOfWork.Repository<Product>().UpdateManyAsync(products);
+	await _unitOfWork.SaveAsync();
 }
 ```
 
@@ -119,7 +123,8 @@ You can use `RemoveOne` or the async versions to delete an entity from the repos
 ```csharp
 public async Task RemoveProductAsync(Product product)
 {
-	await _productRepository.RemoveOneAsync(product);
+	await _unitOfWork.Repository<Product>().RemoveOneAsync(product);
+	await _unitOfWork.SaveAsync();
 }
 ```
 
@@ -130,6 +135,7 @@ You can use `RemoveMany` or the async versions to delete multiple entities from 
 ```csharp
 public async Task RemoveProductsAsync(List<Product> products)
 {
-	await _productRepository.RemoveManyAsync(products);
+	await _unitOfWork.Repository<Product>().RemoveManyAsync(products);
+	await _unitOfWork.SaveAsync();
 }
 ```

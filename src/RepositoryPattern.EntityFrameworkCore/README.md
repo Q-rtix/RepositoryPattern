@@ -66,10 +66,18 @@ builder.Services.AddRepositoryPattern(options => {
 });
 ```
 
-The default scope for injected services is scoped. If you want to change it, refer to the next example:
+The default scope for injected services is scoped. If you want to change it, refer to the next examples:
 
+Using the same lifetime:
 ```csharp
 builder.Services.AddRepositoryPattern(options => {
-    options.UseEntityFrameworCore();
-}, ServiceLifeTime.Transient);
+    options.UseEntityFrameworCore(ServiceLifetime.Singleton);
+});
+```
+
+Using individual lifetime:
+```csharp
+builder.Services.AddRepositoryPattern(options => {
+    options.UseEntityFrameworCore(ServiceLifetime.Scoped, SeriviceLifetime.Singleton);
+});
 ```

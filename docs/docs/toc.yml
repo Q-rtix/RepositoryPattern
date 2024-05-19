@@ -10,3 +10,5 @@
       href: efcore/getting-started.md
     - name: Basic Tutorials
       href: efcore/basic-tutorials.md
+    - name: Advanced Usage
+      href: efcore/advanced-tutorials.md
