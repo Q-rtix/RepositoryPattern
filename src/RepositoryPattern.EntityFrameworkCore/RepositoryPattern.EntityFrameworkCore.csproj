@@ -20,10 +20,11 @@
 		<Title>RepositoryPattern.EntityFrameworkCore</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.EntityFrameworkCore</PackageId>
-		<Version>6.0.1</Version>
+		<Version>7.0.1</Version>
 		<PackageReleaseNotes>
-			- Implementation for the Repository.Abstractons v6.0.1.
+			- Implementation for the Repository.Abstractons v7.0.1.
 			- Update the doucmentation.
+			- Update the EFCore libs to the last version
 		</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -46,8 +47,8 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.7"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0'">
@@ -57,7 +58,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
-		<PackageReference Include="Qrtix.RepositoryPattern.Abstractions" Version="6.0.1" />
+		<PackageReference Include="Qrtix.RepositoryPattern.Abstractions" Version="7.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

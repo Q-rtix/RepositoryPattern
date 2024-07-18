@@ -28,7 +28,7 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
 	public async Task<TEntity?> GetOneAsync(IEnumerable<Expression<Func<TEntity, object>>>? includes = null,
 		bool disableTracking = false,
-		CancellationToken cancellationToken = default, 
+		CancellationToken cancellationToken = default,
 		params Expression<Func<TEntity, bool>>[] filters)
 		=> await _dbSet.WithTrackingOption(disableTracking)
 			.WithIncludedProperties(includes)
@@ -44,99 +44,34 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 			.FirstOrDefault();
 
 
-	public async Task<TEntity> AddOneAsync(TEntity entity,
+	public Task AddOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default)
-	{
-		var entry = await _dbSet.AddAsync(entity, cancellationToken);
-		return entry.Entity;
-	}
+		=> _dbSet.AddAsync(entity, cancellationToken).AsTask();
 
-	public TEntity AddOne(TEntity entity)
-	{
-		var entry = _dbSet.Add(entity);
-		return entry.Entity;
-	}
+	public void AddOne(TEntity entity) => _dbSet.Add(entity);
 
-
-	public async Task AddManyAsync(IEnumerable<TEntity> entities,
-		CancellationToken cancellationToken = default) 
-		=> await _dbSet.AddRangeAsync(entities, cancellationToken);
+	public Task AddManyAsync(IEnumerable<TEntity> entities,
+		CancellationToken cancellationToken = default)
+		=> _dbSet.AddRangeAsync(entities, cancellationToken);
 
 	public void AddMany(IEnumerable<TEntity> entities) => _dbSet.AddRange(entities);
 
-	public async Task<TEntity> UpdateOneAsync(TEntity entity,
-		CancellationToken cancellationToken = default)
-	{
-		var entry = _dbSet.Update(entity);
-		return entry.Entity;
-	}
+	public void UpdateOne(TEntity entity) => _dbSet.Update(entity);
 
-	public TEntity UpdateOne(TEntity entity)
-	{
-		var entry = _dbSet.Update(entity);
-		return entry.Entity;
-	}
+	public void UpdateMany(IEnumerable<TEntity> entities) => _dbSet.UpdateRange(entities);
 
-	public async Task UpdateManyAsync(IEnumerable<TEntity> entities,
-		CancellationToken cancellationToken = default)
-	{
-		_dbSet.UpdateRange(entities);
-	}
+	public void RemoveOne(TEntity entity) => _dbSet.Remove(entity);
 
-	public void UpdateMany(IEnumerable<TEntity> entities)
-	{
-		_dbSet.UpdateRange(entities);
-	}
-
-
-	public async Task<TEntity> RemoveOneAsync(TEntity entity,
-		CancellationToken cancellationToken = default)
-	{
-		var entry = _dbSet.Remove(entity);
-		return entry.Entity;
-	}
-
-	public TEntity RemoveOne(TEntity entity)
-	{
-		var entry = _dbSet.Remove(entity);
-		return entry.Entity;
-	}
-
-
-	public async Task<TEntity> RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters,
-		CancellationToken cancellationToken = default)
-	{
-		var entity = await GetOneAsync(cancellationToken: cancellationToken, filters: filters);
-
-		if (entity is null)
-			throw new ArgumentException($"{typeof(TEntity).Name} not found", nameof(filters));
-
-		return await RemoveOneAsync(entity, cancellationToken);
-	}
-
-	public TEntity RemoveOne(Expression<Func<TEntity, bool>>[] filters)
+	public void RemoveOne(Expression<Func<TEntity, bool>>[] filters)
 	{
 		var entity = GetOne(filters: filters);
 		if (entity is null)
 			throw new ArgumentException($"{typeof(TEntity).Name} not found", nameof(filters));
 
-		return RemoveOne(entity);
+		RemoveOne(entity);
 	}
-
-	public async Task RemoveManyAsync(IEnumerable<TEntity> entities,
-		CancellationToken cancellationToken = default)
-		=> await Task.Run(() => _dbSet.RemoveRange(entities), cancellationToken);
 
 	public void RemoveMany(IEnumerable<TEntity> entities) => _dbSet.RemoveRange(entities);
-
-	public async Task RemoveManyAsync(Expression<Func<TEntity, bool>>[] filters,
-		CancellationToken cancellationToken = default)
-	{
-		var entities = GetMany(filters: filters);
-		if (!entities.Any())
-			return;
-		await RemoveManyAsync(entities, cancellationToken);
-	}
 
 	public void RemoveMany(Expression<Func<TEntity, bool>>[] filters)
 	{
