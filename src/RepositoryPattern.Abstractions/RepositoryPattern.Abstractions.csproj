@@ -20,9 +20,9 @@
 		<Title>RepositoryPattern.Abstractions</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.Abstractions</PackageId>
-		<Version>7.0.0</Version>
+		<Version>7.0.1</Version>
 		<PackageReleaseNotes>f
-			- Change interface's methods declaration
+			- Remove unnecessary methods from the IRepository interface.
 		</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
