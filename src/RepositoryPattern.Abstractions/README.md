@@ -74,8 +74,8 @@ Create your repository implementation inheriting from `IRepository<TEntity>`:
 public class ProductRepository : IRepository<TEntity> where TEntity : class
 {
 	private readonly DbSet<TEntity> _dbSet;
-	private readonly DbContext _context;
 	
+    
     public IQueryable<TEntity> Data => _dbSet;
 
 

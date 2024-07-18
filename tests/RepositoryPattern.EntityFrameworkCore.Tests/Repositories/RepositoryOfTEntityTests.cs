@@ -317,11 +317,10 @@ public class RepositoryOfTEntityTests
 		var entity = new TestEntity { Id = 5, Name = "Test 4" };
 
 		// Act
-		var result = await _repository.AddOneAsync(entity);
+		await _repository.AddOneAsync(entity);
 
 		// Assert
-		result.Should().BeEquivalentTo(entity);
-		_context.Entry(result).State.Should().Be(EntityState.Added);
+		_context.Entry(entity).State.Should().Be(EntityState.Added);
 
 		_context.ChangeTracker.Clear();
 	}
@@ -333,10 +332,10 @@ public class RepositoryOfTEntityTests
 		var entity = new TestEntity { Id = 612, Name = "Test Entity" };
 
 		// Act
-		var addedEntity = _repository.AddOne(entity);
+		_repository.AddOne(entity);
 
 		// Assert
-		_context.Entry(addedEntity).State.Should().Be(EntityState.Added);
+		_context.Entry(entity).State.Should().Be(EntityState.Added);
 
 		_context.ChangeTracker.Clear();
 	}
@@ -382,24 +381,6 @@ public class RepositoryOfTEntityTests
 	}
 
 	[Fact]
-	public async Task UpdateOneAsync_ShouldUpdateEntityInContext()
-	{
-		// Arrange
-		var entity = new TestEntity { Id = 796, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
-
-		entity.Name = "Updated Test Entity";
-
-		// Act
-		var updatedEntity = await _repository.UpdateOneAsync(entity);
-
-		// Assert
-		_context.Entry(updatedEntity).State.Should().Be(EntityState.Modified);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
 	public void UpdateOne_ShouldUpdateEntityInContext()
 	{
 		// Arrange
@@ -409,34 +390,10 @@ public class RepositoryOfTEntityTests
 		entity.Name = "Updated Test Entity";
 
 		// Act
-		var updatedEntity = _repository.UpdateOne(entity);
+		_repository.UpdateOne(entity);
 
 		// Assert
-		_context.Entry(updatedEntity).State.Should().Be(EntityState.Modified);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task UpdateManyAsync_ShouldSaveChangesToContext()
-	{
-		// Arrange
-		var entities = new List<TestEntity>
-		{
-			new() { Id = 536, Name = "Test Entity 1" },
-			new() { Id = 537, Name = "Test Entity 2" }
-		};
-		await _repository.AddManyAsync(entities);
-
-		entities[0].Name = "Updated Test Entity 1";
-		entities[1].Name = "Updated Test Entity 2";
-
-		// Act
-		await _repository.UpdateManyAsync(entities);
-
-		// Assert
-		_context.Entry(entities[0]).State.Should().Be(EntityState.Modified);
-		_context.Entry(entities[1]).State.Should().Be(EntityState.Modified);
+		_context.Entry(entity).State.Should().Be(EntityState.Modified);
 
 		_context.ChangeTracker.Clear();
 	}
@@ -466,23 +423,6 @@ public class RepositoryOfTEntityTests
 	}
 
 	[Fact]
-	public async Task RemoveOneAsync_ShouldRemoveEntityFromContext()
-	{
-		// Arrange
-		var entity = new TestEntity { Id = 641, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
-		await _context.SaveChangesAsync();
-
-		// Act
-		var removedEntity = await _repository.RemoveOneAsync(entity);
-
-		// Assert
-		_context.Entry(removedEntity).State.Should().Be(EntityState.Deleted);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
 	public void RemoveOne_ShouldRemoveEntityFromContext()
 	{
 		// Arrange
@@ -491,27 +431,10 @@ public class RepositoryOfTEntityTests
 		_context.SaveChanges();
 
 		// Act
-		var removedEntity = _repository.RemoveOne(entity);
+		_repository.RemoveOne(entity);
 
 		// Assert
-		_context.Entry(removedEntity).State.Should().Be(EntityState.Deleted);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task RemoveOneAsync_UsingFilters_ShouldRemoveEntityFromContext()
-	{
-		// Arrange
-		var entity = new TestEntity { Id = 166, Name = "Test Entity" };
-		await _repository.AddOneAsync(entity);
-		await _context.SaveChangesAsync();
-
-		// Act
-		var removedEntity = await _repository.RemoveOneAsync([e => e.Id == entity.Id]);
-
-		// Assert
-		_context.Entry(removedEntity).State.Should().Be(EntityState.Deleted);
+		_context.Entry(entity).State.Should().Be(EntityState.Deleted);
 
 		_context.ChangeTracker.Clear();
 	}
@@ -525,44 +448,10 @@ public class RepositoryOfTEntityTests
 		_context.SaveChanges();
 
 		// Act
-		var removedEntity = _repository.RemoveOne([e => e.Id == entity.Id]);
+		_repository.RemoveOne([e => e.Id == entity.Id]);
 
 		// Assert
-		_context.Entry(removedEntity).State.Should().Be(EntityState.Deleted);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task RemoveManyAsync_ShouldRemoveEntitiesFromContext()
-	{
-		// Arrange
-		var entities = new List<TestEntity>
-		{
-			new() { Id = 109, Name = "Entity 1" },
-			new() { Id = 209, Name = "Entity 2" }
-		};
-		await _repository.AddManyAsync(entities);
-		await _context.SaveChangesAsync();
-
-		// Act
-		await _repository.RemoveManyAsync(entities);
-
-		// Assert
-		_context.Entry(entities[0]).State.Should().Be(EntityState.Deleted);
-		_context.Entry(entities[1]).State.Should().Be(EntityState.Deleted);
-
-		_context.ChangeTracker.Clear();
-	}
-
-	[Fact]
-	public async Task RemoveManyAsync_UsingFilters_ShouldRemoveEntitiesFromContext()
-	{
-		// Act
-		await _repository.RemoveManyAsync([e => e.Id == 4, e => e.Id == 5]);
-
-		// Assert
-		_context.TestEntities.Where(e => e.Id == 4 || e.Id == 5).Should().BeEmpty();
+		_context.Entry(entity).State.Should().Be(EntityState.Deleted);
 
 		_context.ChangeTracker.Clear();
 	}
