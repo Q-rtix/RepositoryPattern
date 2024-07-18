@@ -95,9 +95,8 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
-	///     The task result is the created entity.
 	/// </returns>
-	Task<TEntity> AddOneAsync(TEntity entity,
+	Task AddOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -106,10 +105,7 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// <param name="entity">
 	///     The entity to be created.
 	/// </param>
-	/// <returns>
-	///     The created entity.
-	/// </returns>
-	TEntity AddOne(TEntity entity);
+	void AddOne(TEntity entity);
 
 	/// <summary>
 	///     Asynchronously creates multiple entities into the repository.
@@ -145,9 +141,8 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
-	///     The task result is the updated entity.
 	/// </returns>
-	Task<TEntity> UpdateOneAsync(TEntity entity,
+	Task UpdateOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -156,10 +151,7 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// <param name="entity">
 	///     The entity to be updated.
 	/// </param>
-	/// <returns>
-	///     The updated entity.
-	/// </returns>
-	TEntity UpdateOne(TEntity entity);
+	void UpdateOne(TEntity entity);
 
 	/// <summary>
 	///     Asynchronously updates multiple entities in the repository.
@@ -195,9 +187,8 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
-	///     The task result is the removed entity.
 	/// </returns>
-	Task<TEntity> RemoveOneAsync(TEntity entity,
+	Task RemoveOneAsync(TEntity entity,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -206,10 +197,7 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// <param name="entity">
 	///     The entity to be removed.
 	/// </param>
-	/// <returns>
-	///     The removed entity.
-	/// </returns>
-	TEntity RemoveOne(TEntity entity);
+	void RemoveOne(TEntity entity);
 
 	/// <summary>
 	///     Asynchronously removes a single entity from the repository based on filters criteria.
@@ -222,12 +210,11 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// </param>
 	/// <returns>
 	///     A task that represents the asynchronous operation.
-	///     The task result is the removed entity.
 	/// </returns>
 	/// <exception cref="System.ArgumentException">
 	///     Thrown when no entity matching the filters criteria is found in the repository.
 	/// </exception>
-	Task<TEntity> RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters,
+	Task RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters,
 		CancellationToken cancellationToken = default);
 
 	/// <summary>
@@ -236,13 +223,10 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// <param name="filters">
 	///     A lambda expression to test each entity for a condition.
 	/// </param>
-	/// <returns>
-	///     The removed entity.
-	/// </returns>
 	/// <exception cref="System.ArgumentException">
 	///     Thrown when no entity matching the filters criteria is found in the repository.
 	/// </exception>
-	TEntity RemoveOne(Expression<Func<TEntity, bool>>[] filters);
+	void RemoveOne(Expression<Func<TEntity, bool>>[] filters);
 
 	/// <summary>
 	///     Asynchronously removes multiple entities from the repository.
