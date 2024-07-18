@@ -107,20 +107,6 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	/// </param>
 	void AddOne(TEntity entity);
 
-	/// <summary>
-	///     Asynchronously creates multiple entities into the repository.
-	/// </summary>
-	/// <param name="entities">
-	///     A collection of entities to be created.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	Task AddManyAsync(IEnumerable<TEntity> entities,
-		CancellationToken cancellationToken = default);
 
 	/// <summary>
 	///     Synchronously creates multiple entities into the repository.
@@ -131,42 +117,12 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	void AddMany(IEnumerable<TEntity> entities);
 
 	/// <summary>
-	///     Asynchronously updates a single entity in the repository.
-	/// </summary>
-	/// <param name="entity">
-	///     The entity to be updated.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	Task UpdateOneAsync(TEntity entity,
-		CancellationToken cancellationToken = default);
-
-	/// <summary>
 	///     Synchronously updates a single entity in the repository.
 	/// </summary>
 	/// <param name="entity">
 	///     The entity to be updated.
 	/// </param>
 	void UpdateOne(TEntity entity);
-
-	/// <summary>
-	///     Asynchronously updates multiple entities in the repository.
-	/// </summary>
-	/// <param name="entities">
-	///     A collection of entities to be updated.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	Task UpdateManyAsync(IEnumerable<TEntity> entities,
-		CancellationToken cancellationToken = default);
 
 	/// <summary>
 	///     Synchronously updates multiple entities in the repository.
@@ -177,45 +133,12 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	void UpdateMany(IEnumerable<TEntity> entities);
 
 	/// <summary>
-	///     Asynchronously removes a single entity from the repository.
-	/// </summary>
-	/// <param name="entity">
-	///     The entity to be removed.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	Task RemoveOneAsync(TEntity entity,
-		CancellationToken cancellationToken = default);
-
-	/// <summary>
 	///     Synchronously removes a single entity from the repository.
 	/// </summary>
 	/// <param name="entity">
 	///     The entity to be removed.
 	/// </param>
 	void RemoveOne(TEntity entity);
-
-	/// <summary>
-	///     Asynchronously removes a single entity from the repository based on filters criteria.
-	/// </summary>
-	/// <param name="filters">
-	///     A lambda expression to test each entity for a condition.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	/// <exception cref="System.ArgumentException">
-	///     Thrown when no entity matching the filters criteria is found in the repository.
-	/// </exception>
-	Task RemoveOneAsync(Expression<Func<TEntity, bool>>[] filters,
-		CancellationToken cancellationToken = default);
 
 	/// <summary>
 	///     Synchronously removes a single entity from the repository based on filters criteria.
@@ -229,42 +152,12 @@ public interface IRepository<TEntity> : IQueryable<TEntity> where TEntity : clas
 	void RemoveOne(Expression<Func<TEntity, bool>>[] filters);
 
 	/// <summary>
-	///     Asynchronously removes multiple entities from the repository.
-	/// </summary>
-	/// <param name="entities">
-	///     A collection of entities to be removed.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	Task RemoveManyAsync(IEnumerable<TEntity> entities,
-		CancellationToken cancellationToken = default);
-
-	/// <summary>
 	///     Synchronously removes multiple entities from the repository.
 	/// </summary>
 	/// <param name="entities">
 	///     A collection of entities to be removed.
 	/// </param>
 	void RemoveMany(IEnumerable<TEntity> entities);
-
-	/// <summary>
-	///     Asynchronously removes multiple entities from the repository based on filters criteria.
-	/// </summary>
-	/// <param name="filters">
-	///     A lambda expression to test each entity for a condition.
-	/// </param>
-	/// <param name="cancellationToken">
-	///     (Optional) A <see cref="CancellationToken" /> to observe while waiting for the task to complete.
-	/// </param>
-	/// <returns>
-	///     A task that represents the asynchronous operation.
-	/// </returns>
-	Task RemoveManyAsync(Expression<Func<TEntity, bool>>[] filters,
-		CancellationToken cancellationToken = default);
 
 	/// <summary>
 	///     Synchronously removes multiple entities from the repository based on filters criteria.
