@@ -8,6 +8,9 @@ public class RelatedTestEntity
 
 	public int? TestEntityId { get; set; }
 	public TestEntity? TestEntity { get; set; }
+	
+	public int? InsideRelatedTestEntityId { get; set; }
+	public InsideRelatedTestEntity? InsideRelatedTestEntity { get; set; }
 
 	public override bool Equals(object? obj)
 		=> obj is TestEntity entity && Equals(entity);
