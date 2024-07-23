@@ -6,6 +6,7 @@ public class TestDbContext : DbContext
 {
 	public DbSet<TestEntity> TestEntities { get; set; }
 	public DbSet<RelatedTestEntity> RelatedTestEntities { get; set; }
+	public DbSet<InsideRelatedTestEntity> InsideRelatedTestEntities { get; set; }
 
 	public TestDbContext(DbContextOptions<TestDbContext> options)
 	: base(options) { }
@@ -34,6 +35,14 @@ public class TestDbContext : DbContext
 			.HasForeignKey(r => r.TestEntityId);
 		
 		builder.Entity<RelatedTestEntity>()
+			.HasKey(e => e.Id);
+
+		builder.Entity<RelatedTestEntity>()
+			.HasOne<InsideRelatedTestEntity>()
+			.WithMany(ir => ir.RelatedTestEntities)
+			.HasForeignKey(r => r.InsideRelatedTestEntityId);
+
+		builder.Entity<InsideRelatedTestEntity>()
 			.HasKey(e => e.Id);
 		
 		base.OnModelCreating(builder);
