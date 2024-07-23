@@ -56,9 +56,52 @@ public async Task<List<Product>> GetProductsByCategoryAsync(string category)
 	// You can also use synchronous version of GetMany
 	List<Product> products = await _unitOfWork.Repository<Product>().GetManyAsync(p => p.Category == category);
     
+    // Also you can use the IQueryable methods like Where, OrderBy, Select directly on the repository
 	products = await _unitOfWork.Repository<Product>().Where(p => p.Category == category).ToListAsync();
 
     return products;
+}
+```
+
+### Example: Using the 'includes' parameter in GetMany and GetOne methods
+
+You can use the `includes` parameter to include related entities in the query.
+
+```csharp
+public async Task<List<Product>> GetProductsWithCategoryAsync()
+{
+	List<Product> products = await _unitOfWork.Repository<Product>().GetManyAsync(includes: p => p.Category);
+	return products;
+}
+```
+
+If you want to include multiple related entities, you can use the `includes` parameter with multiple expressions.
+
+```csharp
+public async Task<List<Product>> GetProductsWithCategoryAndSupplierAsync()
+{
+    var includes = new Expression<Func<Product, object>>[]
+	{
+		p => p.Category,
+		p => p.Suppliers
+	};
+	List<Product> products = await _unitOfWork.Repository<Product>().GetManyAsync(includes: includes);
+	return products;
+}
+```
+
+Now you want access to the contact info of the supplier, you can use the `Then` method if the suppliers is a collection to provide the navigation property.
+
+```csharp
+public async Task<List<Product>> GetProductsWithCategoryAndSupplierContactInfoAsync()
+{
+	var includes = new Expression<Func<Product, object>>[]
+	{
+		p => p.Category,
+		p => p.Suppliers.Then(s => s.ContactInfo)
+	};
+	List<Product> products = await _unitOfWork.Repository<Product>().GetManyAsync(includes: includes);
+	return products;
 }
 ```
 

@@ -2,6 +2,8 @@ using System.Linq.Expressions;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using RepositoryPattern.Abstractions.Extensions;
+using RepositoryPattern.EntityFrameworkCore.Extensions;
 using RepositoryPattern.EntityFrameworkCore.Repositories;
 using RepositoryPattern.EntityFrameworkCore.Tests.Laboratory;
 
@@ -30,7 +32,7 @@ public class RepositoryOfTEntityTests
 		_context.TestEntities.Add(new TestEntity { Id = 1121, Name = "Test 111" });
 		_context.TestEntities.Add(new TestEntity { Id = 2212, Name = "Test 222" });
 		_context.SaveChanges();
-		
+
 		// Act
 		var result = _repository
 			.Where(e => e.Id == 1121)
@@ -39,7 +41,7 @@ public class RepositoryOfTEntityTests
 		// Assert
 		result.Should().ContainSingle(e => e.Id == 1121);
 	}
-	
+
 	[Fact]
 	public void FirstOrDefault_ShouldReturnCorrectEntity()
 	{
@@ -47,15 +49,15 @@ public class RepositoryOfTEntityTests
 		_context.TestEntities.Add(new TestEntity { Id = 111, Name = "Test 111" });
 		_context.TestEntities.Add(new TestEntity { Id = 222, Name = "Test 222" });
 		_context.SaveChanges();
-		
+
 		// Act
 		var result = _repository
 			.FirstOrDefault(e => e.Id == 111);
-		
+
 		// Assert
 		result.Should().BeEquivalentTo(new TestEntity { Id = 111, Name = "Test 111" });
 	}
-	
+
 	[Fact]
 	public async Task FirstOrDefaultAsync_ShouldReturnCorrectEntity()
 	{
@@ -63,15 +65,15 @@ public class RepositoryOfTEntityTests
 		_context.TestEntities.Add(new TestEntity { Id = 1211, Name = "Test 111" });
 		_context.TestEntities.Add(new TestEntity { Id = 2122, Name = "Test 222" });
 		_context.SaveChanges();
-		
+
 		// Act
 		var result = await _repository
 			.FirstOrDefaultAsync(e => e.Id == 1211);
-		
+
 		// Assert
 		result.Should().BeEquivalentTo(new TestEntity { Id = 1211, Name = "Test 111" });
 	}
-	
+
 	[Fact]
 	public void GetMany_NoFilters_ReturnsAll()
 	{
@@ -91,7 +93,7 @@ public class RepositoryOfTEntityTests
 	public void GetMany_WithFilter_FiltersCorrectly()
 	{
 		// Arrange
-		_context.TestEntities.Add(new TestEntity{Id = 1111, Name = "Test 111"});
+		_context.TestEntities.Add(new TestEntity { Id = 1111, Name = "Test 111" });
 		_context.SaveChanges();
 
 		// Act
@@ -137,13 +139,67 @@ public class RepositoryOfTEntityTests
 		// Arrange
 		List<RelatedTestEntity> relatedTestEntities =
 		[
-			new RelatedTestEntity { Id = 1, Name = "Related 1", TestEntityId = 1 },
-			new RelatedTestEntity { Id = 2, Name = "Related 2", TestEntityId = 2 },
-			new RelatedTestEntity { Id = 3, Name = "Related 3", TestEntityId = 2 },
-			new RelatedTestEntity { Id = 4, Name = "Related 4", TestEntityId = 3 },
-			new RelatedTestEntity { Id = 5, Name = "Related 5", TestEntityId = 3 },
-			new RelatedTestEntity { Id = 6, Name = "Related 6", TestEntityId = 3 }
+			new RelatedTestEntity { Id = 10, Name = "Related 1", TestEntityId = 10 },
+			new RelatedTestEntity { Id = 20, Name = "Related 2", TestEntityId = 20 },
+			new RelatedTestEntity { Id = 30, Name = "Related 3", TestEntityId = 20 },
+			new RelatedTestEntity { Id = 40, Name = "Related 4", TestEntityId = 30 },
+			new RelatedTestEntity { Id = 50, Name = "Related 5", TestEntityId = 30 },
+			new RelatedTestEntity { Id = 60, Name = "Related 6", TestEntityId = 30 }
 		];
+		IEnumerable<TestEntity> testEntities =
+		[
+			new TestEntity { Id = 10, Name = "Test 1", RelatedTestEntities = [relatedTestEntities[0]] },
+			new TestEntity
+				{ Id = 20, Name = "Test 2", RelatedTestEntities = [relatedTestEntities[1], relatedTestEntities[2]] },
+			new TestEntity
+			{
+				Id = 30, Name = "Test 3",
+				RelatedTestEntities = [relatedTestEntities[3], relatedTestEntities[4], relatedTestEntities[5]]
+			},
+		];
+		_context.AddRange(relatedTestEntities);
+		_context.AddRange(testEntities);
+		_context.SaveChanges();
+		var entities = _repository.Include(e => e.RelatedTestEntities).ToList();
+		var includes = new Expression<Func<TestEntity, object>>[]
+		{
+			e => e.RelatedTestEntities
+				.Then(r => r.InsideRelatedTestEntity)
+		};
+
+		// Act
+		var result = _repository.GetMany(includes: includes);
+
+		// Assert
+		result.Should().BeEquivalentTo(entities);
+		result.AsEnumerable().Any(e => e.RelatedTestEntities.Count != 0).Should().BeTrue();
+
+		_context.ChangeTracker.Clear();
+	}
+
+	[Fact]
+	public void GetMany_WithThenIncludes_IncludesRelatedEntities()
+	{
+		// Arrange
+		List<RelatedTestEntity> relatedTestEntities =
+		[
+			new RelatedTestEntity { Id = 1, Name = "Related 1", TestEntityId = 1, InsideRelatedTestEntityId = 1},
+			new RelatedTestEntity { Id = 2, Name = "Related 2", TestEntityId = 2 },
+			new RelatedTestEntity { Id = 3, Name = "Related 3", TestEntityId = 2, InsideRelatedTestEntityId = 1 },
+			new RelatedTestEntity { Id = 4, Name = "Related 4", TestEntityId = 3, InsideRelatedTestEntityId = 1 },
+			new RelatedTestEntity { Id = 5, Name = "Related 5", TestEntityId = 3 },
+			new RelatedTestEntity { Id = 6, Name = "Related 6", TestEntityId = 3, InsideRelatedTestEntityId = 1 }
+		];
+		InsideRelatedTestEntity insideRelatedEntity = new() 
+		{
+			Id = 1, 
+			RelatedTestEntities = [
+				relatedTestEntities[0],
+				relatedTestEntities[2],
+				relatedTestEntities[3],
+				relatedTestEntities[5],
+			]
+		};
 		IEnumerable<TestEntity> testEntities =
 		[
 			new TestEntity { Id = 1, Name = "Test 1", RelatedTestEntities = [relatedTestEntities[0]] },
@@ -155,11 +211,16 @@ public class RepositoryOfTEntityTests
 				RelatedTestEntities = [relatedTestEntities[3], relatedTestEntities[4], relatedTestEntities[5]]
 			},
 		];
+		_context.Add(insideRelatedEntity);
 		_context.AddRange(relatedTestEntities);
 		_context.AddRange(testEntities);
 		_context.SaveChanges();
-		var entities = _repository.Include(e => e.RelatedTestEntities).ToList();
-		var includes = new Expression<Func<TestEntity, object>>[] { e => e.RelatedTestEntities };
+		var entities = _repository.Include(e => e.RelatedTestEntities)
+			.ThenInclude(r => r.InsideRelatedTestEntity).ToList();
+		
+		var includes = new Expression<Func<TestEntity, object>>[] { 
+			e => e.RelatedTestEntities.Then(r => r.InsideRelatedTestEntity)
+		};
 
 		// Act
 		var result = _repository.GetMany(includes: includes);
@@ -242,7 +303,8 @@ public class RepositoryOfTEntityTests
 		cts.Cancel();
 
 		// Act
-		Func<Task> action = async () => await _repository.GetOneAsync(cancellationToken: cts.Token, filters: e => e.Id == 1);
+		Func<Task> action = async () =>
+			await _repository.GetOneAsync(cancellationToken: cts.Token, filters: e => e.Id == 1);
 
 		// Assert
 		await action.Should().ThrowAsync<OperationCanceledException>();
@@ -284,7 +346,7 @@ public class RepositoryOfTEntityTests
 		var entity = _repository.First();
 
 		// Act
-		var result = _repository.GetOne( disableTracking: true, filters: e => e.Id == entity.Id);
+		var result = _repository.GetOne(disableTracking: true, filters: e => e.Id == entity.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(entity);
@@ -356,7 +418,7 @@ public class RepositoryOfTEntityTests
 		// Assert
 		_context.Entry(entities[0]).State.Should().Be(EntityState.Added);
 		_context.Entry(entities[1]).State.Should().Be(EntityState.Added);
-			
+
 		_context.ChangeTracker.Clear();
 	}
 

@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using RepositoryPattern.Abstractions.Repositories;
+using RepositoryPattern.EntityFrameworkCore.Extensions;
 
 [assembly: InternalsVisibleTo("RepositoryPattern.EntityFrameworkCore.Tests")]
 

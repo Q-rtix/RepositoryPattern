@@ -20,11 +20,10 @@
 		<Title>RepositoryPattern.EntityFrameworkCore</Title>
 		
 		<PackageId>Qrtix.RepositoryPattern.EntityFrameworkCore</PackageId>
-		<Version>7.0.1</Version>
+		<Version>7.1.0</Version>
 		<PackageReleaseNotes>
-			- Implementation for the Repository.Abstractons v7.0.1.
-			- Update the doucmentation.
-			- Update the EFCore libs to the last version
+			- Added support for including collection navigation properties using the extended 
+			'Then' method, exclusively developed in this library for enhanced this capabilities.
 		</PackageReleaseNotes>
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>

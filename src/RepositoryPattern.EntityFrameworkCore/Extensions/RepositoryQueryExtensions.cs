@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 
 [assembly: InternalsVisibleTo("RepositoryPattern.EntityFrameworkCore.Tests")]
-namespace RepositoryPattern.EntityFrameworkCore.Repositories;
+namespace RepositoryPattern.EntityFrameworkCore.Extensions;
 
 internal static class RepositoryQueryExtensions
 {
@@ -19,9 +19,19 @@ internal static class RepositoryQueryExtensions
 		IEnumerable<Expression<Func<T, object>>>? includes = null) where T : class
 	{
 		ArgumentNullException.ThrowIfNull(query);
+
+		if (includes is null)
+			return query;
 		
-		return includes?.Aggregate(query, (current, includeProperty) => current.Include(includeProperty))
-		       ?? query;
+		return includes.Aggregate(query, (current, includeExpression) =>
+		{
+			var path = includeExpression.ToString();
+			var split = path.Split(".").AsEnumerable();
+			split = split.Where(s => !s.Contains("=>") && !s.Contains("Then("))
+				.Select(s => s.Trim('(', ')'));
+			path = string.Join(".", split);
+			return current.Include(path);
+		});
 	}
 
 	internal static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query,
@@ -29,14 +39,15 @@ internal static class RepositoryQueryExtensions
 	{
 		ArgumentNullException.ThrowIfNull(query);
 		
-		return orderBy is null ? query : orderBy(query);
+		return orderBy?.Invoke(query) ?? query;
 	}
 	
 	internal static IQueryable<T> ApplyFiltering<T>(this IQueryable<T> query,
 		Expression<Func<T, bool>>[]? filters = null)
 	{
 		ArgumentNullException.ThrowIfNull(query);
-		
-		return filters is null ? query : filters.Aggregate(query, (current, filter) => current.Where(filter));
+
+		return filters?.Aggregate(query, (current, filter) => current.Where(filter))
+			?? query;
 	}
 }
