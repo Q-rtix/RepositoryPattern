@@ -2,6 +2,11 @@
 	<s:Boolean x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/ShowAdvancedOptions/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=3C38A352_002D40F7_002D4CAD_002D8ED5_002D51A748B3D144/@EntryIndexedValue">0BD4BE47-56DB-44E5-8147-8F661DFF2841</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=xUnit/@EntryIndexedValue">33ff99d8-b1ad-4ed5-a4fd-376b97c2c841</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0b2805e4_002Da205_002D435b_002Db123_002D5b227aac218c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateUnitOfWorkOptions_ShouldBeSuccessful" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::37DD8A3E-3CC2-48F9-9BF6-E691123EF8BC::net8.0::RepositoryPattern.Abstractions.Tests.Builder.UnitOfWorkOptionsTests.CreateUnitOfWorkOptions_ShouldBeSuccessful&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=493b20de_002D1c11_002D4693_002D96de_002Ddd10bbbcf4ed/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
