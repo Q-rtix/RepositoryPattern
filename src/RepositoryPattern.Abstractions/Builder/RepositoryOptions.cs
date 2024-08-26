@@ -1,6 +1,9 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using RepositoryPattern.Abstractions.Extensions;
 using RepositoryPattern.Abstractions.Repositories;
+
+[assembly: InternalsVisibleTo("RepositoryPattern.Abstractions.Tests")]
 
 namespace RepositoryPattern.Abstractions.Builder;
 
@@ -20,7 +23,7 @@ public class RepositoryOptions
 	/// </exception>
 	public RepositoryOptions(Type implementationType)
 	{
-		if (!implementationType.IsImplementing(typeof(IRepository<>)))
+		if (!implementationType.IsImplementingRepository(typeof(IRepository<>)))
 			throw new ArgumentException("The provided type must be class that implement the IRepository<TEntity> interface");
 		ImplementationType = implementationType;
 	}

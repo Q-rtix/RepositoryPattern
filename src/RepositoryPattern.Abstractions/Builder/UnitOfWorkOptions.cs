@@ -20,7 +20,7 @@ public class UnitOfWorkOptions
 	/// </exception>
 	public UnitOfWorkOptions(Type implementationType)
 	{
-		if (!implementationType.IsImplementing(typeof(IUnitOfWork)))
+		if (!implementationType.IsImplementingUnitOfWork(typeof(IUnitOfWork)))
 			throw new ArgumentException("The provided type must be class that implement the IUnitOfWork interface");
 		ImplementationType = implementationType;
 	}
